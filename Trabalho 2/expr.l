@@ -1,0 +1,28 @@
+delim	[ \t]
+ws	{delim}+
+digito	[0-9]
+num	{digito}+
+
+menor	[<]+
+maior	[>]+
+
+%%
+{ws}	{}
+"+"	{return TADD;}
+"-"	{return TSUB;}
+"*"	{return TMUL;}
+"/"	{return TDIV;}
+"("	{return TAPAR;}
+")"	{return TFPAR;}
+\n	{return TFIM;}
+<	{return TMENOR;}
+>	{return TMAIOR;}
+>=	{return TMAIORIGUAL;}
+<=	{return TMENORIGUAL;}
+==	{return TIGUALIGUAL;}
+!=	{return TDIFF;}
+~	{return TNEG;}
+&&	{return TEE;}
+||	{return TOU;}
+
+{num}	{yylval=atof(yytext); return TNUM;} 
