@@ -1,0 +1,503 @@
+Grammar
+
+    0 $accept: Linha $end
+
+    1 Linha: ExpL TFIM
+
+    2 ExpL: ExpL TEE ExpN
+    3     | ExpL TOU ExpN
+    4     | ExpN
+
+    5 ExpN: TNEG ExpN
+    6     | ExpR
+
+    7 ExpR: ExpA TMENOR ExpA
+    8     | ExpA TMAIOR ExpA
+    9     | ExpA TMAIORIGUAL ExpA
+   10     | ExpA TMENORIGUAL ExpA
+   11     | ExpA TIGUALIGUAL ExpA
+   12     | ExpA TDIFF ExpA
+
+   13 ExpA: ExpA TADD Termo
+   14     | ExpA TSUB Termo
+   15     | Termo
+
+   16 Termo: Termo TMUL Fator
+   17      | Termo TDIV Fator
+   18      | Fator
+
+   19 Fator: TNUM
+   20      | TAPAR ExpA TFPAR
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+TADD (258) 13
+TMUL (259) 16
+TSUB (260) 14
+TDIV (261) 17
+TAPAR (262) 20
+TFPAR (263) 20
+TNUM (264) 19
+TFIM (265) 1
+TMENOR (266) 7
+TMAIOR (267) 8
+TMAIORIGUAL (268) 9
+TMENORIGUAL (269) 10
+TIGUALIGUAL (270) 11
+TDIFF (271) 12
+TNEG (272) 5
+TEE (273) 2
+TOU (274) 3
+
+
+Nonterminals, with rules where they appear
+
+$accept (20)
+    on left: 0
+Linha (21)
+    on left: 1, on right: 0
+ExpL (22)
+    on left: 2 3 4, on right: 1 2 3
+ExpN (23)
+    on left: 5 6, on right: 2 3 4 5
+ExpR (24)
+    on left: 7 8 9 10 11 12, on right: 6
+ExpA (25)
+    on left: 13 14 15, on right: 7 8 9 10 11 12 13 14 20
+Termo (26)
+    on left: 16 17 18, on right: 13 14 15 16 17
+Fator (27)
+    on left: 19 20, on right: 16 17 18
+
+
+state 0
+
+    0 $accept: . Linha $end
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+    TNEG   shift, and go to state 3
+
+    Linha  go to state 4
+    ExpL   go to state 5
+    ExpN   go to state 6
+    ExpR   go to state 7
+    ExpA   go to state 8
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 1
+
+   20 Fator: TAPAR . ExpA TFPAR
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 11
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 2
+
+   19 Fator: TNUM .
+
+    $default  reduce using rule 19 (Fator)
+
+
+state 3
+
+    5 ExpN: TNEG . ExpN
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+    TNEG   shift, and go to state 3
+
+    ExpN   go to state 12
+    ExpR   go to state 7
+    ExpA   go to state 8
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 4
+
+    0 $accept: Linha . $end
+
+    $end  shift, and go to state 13
+
+
+state 5
+
+    1 Linha: ExpL . TFIM
+    2 ExpL: ExpL . TEE ExpN
+    3     | ExpL . TOU ExpN
+
+    TFIM  shift, and go to state 14
+    TEE   shift, and go to state 15
+    TOU   shift, and go to state 16
+
+
+state 6
+
+    4 ExpL: ExpN .
+
+    $default  reduce using rule 4 (ExpL)
+
+
+state 7
+
+    6 ExpN: ExpR .
+
+    $default  reduce using rule 6 (ExpN)
+
+
+state 8
+
+    7 ExpR: ExpA . TMENOR ExpA
+    8     | ExpA . TMAIOR ExpA
+    9     | ExpA . TMAIORIGUAL ExpA
+   10     | ExpA . TMENORIGUAL ExpA
+   11     | ExpA . TIGUALIGUAL ExpA
+   12     | ExpA . TDIFF ExpA
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD         shift, and go to state 17
+    TSUB         shift, and go to state 18
+    TMENOR       shift, and go to state 19
+    TMAIOR       shift, and go to state 20
+    TMAIORIGUAL  shift, and go to state 21
+    TMENORIGUAL  shift, and go to state 22
+    TIGUALIGUAL  shift, and go to state 23
+    TDIFF        shift, and go to state 24
+
+
+state 9
+
+   15 ExpA: Termo .
+   16 Termo: Termo . TMUL Fator
+   17      | Termo . TDIV Fator
+
+    TMUL  shift, and go to state 25
+    TDIV  shift, and go to state 26
+
+    $default  reduce using rule 15 (ExpA)
+
+
+state 10
+
+   18 Termo: Fator .
+
+    $default  reduce using rule 18 (Termo)
+
+
+state 11
+
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+   20 Fator: TAPAR ExpA . TFPAR
+
+    TADD   shift, and go to state 17
+    TSUB   shift, and go to state 18
+    TFPAR  shift, and go to state 27
+
+
+state 12
+
+    5 ExpN: TNEG ExpN .
+
+    $default  reduce using rule 5 (ExpN)
+
+
+state 13
+
+    0 $accept: Linha $end .
+
+    $default  accept
+
+
+state 14
+
+    1 Linha: ExpL TFIM .
+
+    $default  reduce using rule 1 (Linha)
+
+
+state 15
+
+    2 ExpL: ExpL TEE . ExpN
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+    TNEG   shift, and go to state 3
+
+    ExpN   go to state 28
+    ExpR   go to state 7
+    ExpA   go to state 8
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 16
+
+    3 ExpL: ExpL TOU . ExpN
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+    TNEG   shift, and go to state 3
+
+    ExpN   go to state 29
+    ExpR   go to state 7
+    ExpA   go to state 8
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 17
+
+   13 ExpA: ExpA TADD . Termo
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    Termo  go to state 30
+    Fator  go to state 10
+
+
+state 18
+
+   14 ExpA: ExpA TSUB . Termo
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    Termo  go to state 31
+    Fator  go to state 10
+
+
+state 19
+
+    7 ExpR: ExpA TMENOR . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 32
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 20
+
+    8 ExpR: ExpA TMAIOR . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 33
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 21
+
+    9 ExpR: ExpA TMAIORIGUAL . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 34
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 22
+
+   10 ExpR: ExpA TMENORIGUAL . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 35
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 23
+
+   11 ExpR: ExpA TIGUALIGUAL . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 36
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 24
+
+   12 ExpR: ExpA TDIFF . ExpA
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    ExpA   go to state 37
+    Termo  go to state 9
+    Fator  go to state 10
+
+
+state 25
+
+   16 Termo: Termo TMUL . Fator
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    Fator  go to state 38
+
+
+state 26
+
+   17 Termo: Termo TDIV . Fator
+
+    TAPAR  shift, and go to state 1
+    TNUM   shift, and go to state 2
+
+    Fator  go to state 39
+
+
+state 27
+
+   20 Fator: TAPAR ExpA TFPAR .
+
+    $default  reduce using rule 20 (Fator)
+
+
+state 28
+
+    2 ExpL: ExpL TEE ExpN .
+
+    $default  reduce using rule 2 (ExpL)
+
+
+state 29
+
+    3 ExpL: ExpL TOU ExpN .
+
+    $default  reduce using rule 3 (ExpL)
+
+
+state 30
+
+   13 ExpA: ExpA TADD Termo .
+   16 Termo: Termo . TMUL Fator
+   17      | Termo . TDIV Fator
+
+    TMUL  shift, and go to state 25
+    TDIV  shift, and go to state 26
+
+    $default  reduce using rule 13 (ExpA)
+
+
+state 31
+
+   14 ExpA: ExpA TSUB Termo .
+   16 Termo: Termo . TMUL Fator
+   17      | Termo . TDIV Fator
+
+    TMUL  shift, and go to state 25
+    TDIV  shift, and go to state 26
+
+    $default  reduce using rule 14 (ExpA)
+
+
+state 32
+
+    7 ExpR: ExpA TMENOR ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 7 (ExpR)
+
+
+state 33
+
+    8 ExpR: ExpA TMAIOR ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 8 (ExpR)
+
+
+state 34
+
+    9 ExpR: ExpA TMAIORIGUAL ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 9 (ExpR)
+
+
+state 35
+
+   10 ExpR: ExpA TMENORIGUAL ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 10 (ExpR)
+
+
+state 36
+
+   11 ExpR: ExpA TIGUALIGUAL ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 11 (ExpR)
+
+
+state 37
+
+   12 ExpR: ExpA TDIFF ExpA .
+   13 ExpA: ExpA . TADD Termo
+   14     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 17
+    TSUB  shift, and go to state 18
+
+    $default  reduce using rule 12 (ExpR)
+
+
+state 38
+
+   16 Termo: Termo TMUL Fator .
+
+    $default  reduce using rule 16 (Termo)
+
+
+state 39
+
+   17 Termo: Termo TDIV Fator .
+
+    $default  reduce using rule 17 (Termo)

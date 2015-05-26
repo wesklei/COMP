@@ -21,5 +21,6 @@ num	{digito}+
 "!"	{return TNEG;}
 "&&"	{return TEE;}
 "||"	{return TOU;}
+{num}	{return TNUM;}
 
-{num}	{yylval=atof(yytext); return TNUM;} 
+
