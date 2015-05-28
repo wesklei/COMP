@@ -1,4 +1,4 @@
-delim	[ \t]
+delim	[ \t\n]
 ws	{delim}+
 digito	[0-9]
 num	{digito}+
@@ -11,7 +11,6 @@ num	{digito}+
 "/"	{return TDIV;}
 "("	{return TAPAR;}
 ")"	{return TFPAR;}
-\n	{return TFIM;}
 "<"	{return TMENOR;}
 ">"	{return TMAIOR;}
 ">="	{return TMAIORIGUAL;}
@@ -22,4 +21,4 @@ num	{digito}+
 "&&"	{return TEE;}
 "||"	{return TOU;}
 
-{num}	{yylval=atof(yytext); return TNUM;} 
+{num}	{return TNUM;} 

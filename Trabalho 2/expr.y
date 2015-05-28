@@ -7,8 +7,6 @@
 %token TADD TMUL TSUB TDIV TAPAR TFPAR TNUM TFIM TMENOR TMAIOR TMAIORIGUAL TMENORIGUAL TIGUALIGUAL TDIFF TNEG TEE TOU
 
 %%
-Linha :ExpL TFIM {printf("Aceito/n");exit(0);}
-	;
 ExpL: ExpL TEE ExpN 
 	| ExpL TOU ExpN 
 	| ExpN
@@ -22,6 +20,7 @@ ExpR: ExpA TMENOR ExpA
 	| ExpA TMENORIGUAL ExpA 
 	| ExpA TIGUALIGUAL ExpA 
 	| ExpA TDIFF ExpA 
+	| TAPAR ExpR TFPAR
 	;
 ExpA: ExpA TADD Termo 
 	| ExpA TSUB Termo
