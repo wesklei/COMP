@@ -1,4 +1,4 @@
-delim	[ \t\n]
+delim	[ \t]
 ws	{delim}+
 digito	[0-9]
 num	{digito}+
@@ -20,5 +20,6 @@ num	{digito}+
 "!"	{return TNEG;}
 "&&"	{return TEE;}
 "||"	{return TOU;}
+\n	{return TFIM;}
 
 {num}	{return TNUM;} 
