@@ -5,537 +5,1605 @@ Terminals unused in grammar
 
 Grammar
 
-    0 $accept: ExpL $end
+    0 $accept: Inicio $end
 
-    1 ExpL: ExpL TEE ExpN
-    2     | ExpL TOU ExpN
-    3     | ExpN
+    1 Inicio: ExpFuncao ExpBlocoPrincipal
+    2       | ExpBlocoPrincipal
 
-    4 ExpN: TNEG ExpN
-    5     | ExpR
+    3 ExpFuncao: ExpFuncao ExpTFuncao
+    4          | ExpTFuncao
 
-    6 ExpR: ExpA TMENOR ExpA
-    7     | ExpA TMAIOR ExpA
-    8     | ExpA TMAIORIGUAL ExpA
-    9     | ExpA TMENORIGUAL ExpA
-   10     | ExpA TIGUALIGUAL ExpA
-   11     | ExpA TDIFF ExpA
-   12     | TAPAR ExpR TFPAR
+    5 ExpTFuncao: ExpTRetorno TID TAPAR ExpParams TFPAR ExpBlocoPrincipal
+    6           | ExpTRetorno TID TAPAR TFPAR ExpBlocoPrincipal
 
-   13 ExpA: ExpA TADD Termo
-   14     | ExpA TSUB Termo
-   15     | Termo
+    7 ExpBloco: TACHAVES ExpListaCmd TFCHAVES
 
-   16 Termo: Termo TMUL Fator
-   17      | Termo TDIV Fator
-   18      | Fator
+    8 ExpTRetorno: ExpTipo
+    9            | TVOID
 
-   19 Fator: TNUM
-   20      | TAPAR ExpA TFPAR
+   10 ExpParams: ExpParams TVIRGULA ExpTParams
+   11          | ExpTParams
+
+   12 ExpTParams: ExpTipo TID
+
+   13 ExpBlocoPrincipal: TACHAVES ExpVariaveis ExpListaCmd TFCHAVES
+   14                  | TACHAVES ExpListaCmd TFCHAVES
+
+   15 ExpVariaveis: ExpVariaveis ExpTVariavel
+   16             | ExpTVariavel
+
+   17 ExpTVariavel: ExpTipo ExpListaID TPTVIRGULA
+
+   18 ExpTipo: TINT
+   19        | TSTRING
+
+   20 ExpListaID: ExpListaID TVIRGULA TID
+   21           | TID
+
+   22 ExpListaCmd: ExpListaCmd ExpComando
+   23            | ExpComando
+
+   24 ExpComando: CmdSe
+   25           | ExpWhile
+   26           | ExpAtribuic
+   27           | ExpPrintf
+   28           | ExpRead
+   29           | ExpChamaFunc
+   30           | ExpReturn
+
+   31 ExpReturn: TRETURN ExpA TPTVIRGULA
+
+   32 CmdSe: TIF TAPAR ExpL TFPAR ExpBloco
+   33      | TIF TAPAR ExpL TFPAR ExpBloco TELSE ExpBloco
+
+   34 ExpWhile: TWHILE TAPAR ExpL TFPAR ExpBloco
+
+   35 ExpAtribuic: TID TATRIBUIC ExpA TPTVIRGULA
+   36            | TID TATRIBUIC TTEXTO TPTVIRGULA
+
+   37 ExpPrintf: TPRINTF TAPAR ExpA TFPAR TPTVIRGULA
+   38          | TPRINTF TAPAR TTEXTO TFPAR TPTVIRGULA
+
+   39 ExpRead: TREAD TAPAR TID TFPAR TPTVIRGULA
+
+   40 ExpChamaFunc: TID TAPAR ExpFuncParams TFPAR TPTVIRGULA
+   41             | TID TAPAR TFPAR TPTVIRGULA
+
+   42 ExpFuncParams: ExpFuncParams TVIRGULA ExpA
+   43              | ExpA
+
+   44 ExpL: ExpL TEE ExpN
+   45     | ExpL TOU ExpN
+   46     | ExpN
+
+   47 ExpN: TNEG ExpN
+   48     | ExpR
+
+   49 ExpR: ExpA TMENOR ExpA
+   50     | ExpA TMAIOR ExpA
+   51     | ExpA TMAIORIGUAL ExpA
+   52     | ExpA TMENORIGUAL ExpA
+   53     | ExpA TIGUALIGUAL ExpA
+   54     | ExpA TDIFF ExpA
+   55     | TAPAR ExpR TFPAR
+
+   56 ExpA: ExpA TADD Termo
+   57     | ExpA TSUB Termo
+   58     | Termo
+
+   59 Termo: Termo TMUL Fator
+   60      | Termo TDIV Fator
+   61      | Fator
+
+   62 Fator: TID
+   63      | TNUM
+   64      | TAPAR ExpA TFPAR
+   65      | TSUB Fator
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-TADD (258) 13
-TMUL (259) 16
-TSUB (260) 14
-TDIV (261) 17
-TAPAR (262) 12 20
-TFPAR (263) 12 20
-TNUM (264) 19
+TADD (258) 56
+TMUL (259) 59
+TSUB (260) 57 65
+TDIV (261) 60
+TAPAR (262) 5 6 32 33 34 37 38 39 40 41 55 64
+TFPAR (263) 5 6 32 33 34 37 38 39 40 41 55 64
+TNUM (264) 63
 TFIM (265)
-TMENOR (266) 6
-TMAIOR (267) 7
-TMAIORIGUAL (268) 8
-TMENORIGUAL (269) 9
-TIGUALIGUAL (270) 10
-TDIFF (271) 11
-TNEG (272) 4
-TEE (273) 1
-TOU (274) 2
+TMENOR (266) 49
+TMAIOR (267) 50
+TMAIORIGUAL (268) 51
+TMENORIGUAL (269) 52
+TIGUALIGUAL (270) 53
+TDIFF (271) 54
+TNEG (272) 47
+TEE (273) 44
+TOU (274) 45
+TIF (275) 32 33
+TELSE (276) 33
+TWHILE (277) 34
+TRETURN (278) 31
+TPRINTF (279) 37 38
+TPTVIRGULA (280) 17 31 35 36 37 38 39 40 41
+TVIRGULA (281) 10 20 42
+TACHAVES (282) 7 13 14
+TREAD (283) 39
+TFCHAVES (284) 7 13 14
+TINT (285) 18
+TSTRING (286) 19
+TATRIBUIC (287) 35 36
+TVOID (288) 9
+TTEXTO (289) 36 38
+TID (290) 5 6 12 20 21 35 36 39 40 41 62
 
 
 Nonterminals, with rules where they appear
 
-$accept (20)
+$accept (36)
     on left: 0
-ExpL (21)
-    on left: 1 2 3, on right: 0 1 2
-ExpN (22)
-    on left: 4 5, on right: 1 2 3 4
-ExpR (23)
-    on left: 6 7 8 9 10 11 12, on right: 5 12
-ExpA (24)
-    on left: 13 14 15, on right: 6 7 8 9 10 11 13 14 20
-Termo (25)
-    on left: 16 17 18, on right: 13 14 15 16 17
-Fator (26)
-    on left: 19 20, on right: 16 17 18
+Inicio (37)
+    on left: 1 2, on right: 0
+ExpFuncao (38)
+    on left: 3 4, on right: 1 3
+ExpTFuncao (39)
+    on left: 5 6, on right: 3 4
+ExpBloco (40)
+    on left: 7, on right: 32 33 34
+ExpTRetorno (41)
+    on left: 8 9, on right: 5 6
+ExpParams (42)
+    on left: 10 11, on right: 5 10
+ExpTParams (43)
+    on left: 12, on right: 10 11
+ExpBlocoPrincipal (44)
+    on left: 13 14, on right: 1 2 5 6
+ExpVariaveis (45)
+    on left: 15 16, on right: 13 15
+ExpTVariavel (46)
+    on left: 17, on right: 15 16
+ExpTipo (47)
+    on left: 18 19, on right: 8 12 17
+ExpListaID (48)
+    on left: 20 21, on right: 17 20
+ExpListaCmd (49)
+    on left: 22 23, on right: 7 13 14 22
+ExpComando (50)
+    on left: 24 25 26 27 28 29 30, on right: 22 23
+ExpReturn (51)
+    on left: 31, on right: 30
+CmdSe (52)
+    on left: 32 33, on right: 24
+ExpWhile (53)
+    on left: 34, on right: 25
+ExpAtribuic (54)
+    on left: 35 36, on right: 26
+ExpPrintf (55)
+    on left: 37 38, on right: 27
+ExpRead (56)
+    on left: 39, on right: 28
+ExpChamaFunc (57)
+    on left: 40 41, on right: 29
+ExpFuncParams (58)
+    on left: 42 43, on right: 40 42
+ExpL (59)
+    on left: 44 45 46, on right: 32 33 34 44 45
+ExpN (60)
+    on left: 47 48, on right: 44 45 46 47
+ExpR (61)
+    on left: 49 50 51 52 53 54 55, on right: 48 55
+ExpA (62)
+    on left: 56 57 58, on right: 31 35 37 42 43 49 50 51 52 53 54 56
+    57 64
+Termo (63)
+    on left: 59 60 61, on right: 56 57 58 59 60
+Fator (64)
+    on left: 62 63 64 65, on right: 59 60 61 65
 
 
 State 0
 
-    0 $accept: . ExpL $end
+    0 $accept: . Inicio $end
 
-    TAPAR  shift, and go to state 1
-    TNUM   shift, and go to state 2
-    TNEG   shift, and go to state 3
+    TACHAVES  shift, and go to state 1
+    TINT      shift, and go to state 2
+    TSTRING   shift, and go to state 3
+    TVOID     shift, and go to state 4
 
-    ExpL   go to state 4
-    ExpN   go to state 5
-    ExpR   go to state 6
-    ExpA   go to state 7
-    Termo  go to state 8
-    Fator  go to state 9
+    Inicio             go to state 5
+    ExpFuncao          go to state 6
+    ExpTFuncao         go to state 7
+    ExpTRetorno        go to state 8
+    ExpBlocoPrincipal  go to state 9
+    ExpTipo            go to state 10
 
 
 State 1
 
-   12 ExpR: TAPAR . ExpR TFPAR
-   20 Fator: TAPAR . ExpA TFPAR
+   13 ExpBlocoPrincipal: TACHAVES . ExpVariaveis ExpListaCmd TFCHAVES
+   14                  | TACHAVES . ExpListaCmd TFCHAVES
 
-    TAPAR  shift, and go to state 1
-    TNUM   shift, and go to state 2
+    TIF      shift, and go to state 11
+    TWHILE   shift, and go to state 12
+    TRETURN  shift, and go to state 13
+    TPRINTF  shift, and go to state 14
+    TREAD    shift, and go to state 15
+    TINT     shift, and go to state 2
+    TSTRING  shift, and go to state 3
+    TID      shift, and go to state 16
 
-    ExpR   go to state 10
-    ExpA   go to state 11
-    Termo  go to state 8
-    Fator  go to state 9
+    ExpVariaveis  go to state 17
+    ExpTVariavel  go to state 18
+    ExpTipo       go to state 19
+    ExpListaCmd   go to state 20
+    ExpComando    go to state 21
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
 
 
 State 2
 
-   19 Fator: TNUM .
+   18 ExpTipo: TINT .
 
-    $default  reduce using rule 19 (Fator)
+    $default  reduce using rule 18 (ExpTipo)
 
 
 State 3
 
-    4 ExpN: TNEG . ExpN
+   19 ExpTipo: TSTRING .
 
-    TAPAR  shift, and go to state 1
-    TNUM   shift, and go to state 2
-    TNEG   shift, and go to state 3
-
-    ExpN   go to state 12
-    ExpR   go to state 6
-    ExpA   go to state 7
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 19 (ExpTipo)
 
 
 State 4
 
-    0 $accept: ExpL . $end
-    1 ExpL: ExpL . TEE ExpN
-    2     | ExpL . TOU ExpN
+    9 ExpTRetorno: TVOID .
 
-    $end  shift, and go to state 13
-    TEE   shift, and go to state 14
-    TOU   shift, and go to state 15
+    $default  reduce using rule 9 (ExpTRetorno)
 
 
 State 5
 
-    3 ExpL: ExpN .
+    0 $accept: Inicio . $end
 
-    $default  reduce using rule 3 (ExpL)
+    $end  shift, and go to state 29
 
 
 State 6
 
-    5 ExpN: ExpR .
+    1 Inicio: ExpFuncao . ExpBlocoPrincipal
+    3 ExpFuncao: ExpFuncao . ExpTFuncao
 
-    $default  reduce using rule 5 (ExpN)
+    TACHAVES  shift, and go to state 1
+    TINT      shift, and go to state 2
+    TSTRING   shift, and go to state 3
+    TVOID     shift, and go to state 4
+
+    ExpTFuncao         go to state 30
+    ExpTRetorno        go to state 8
+    ExpBlocoPrincipal  go to state 31
+    ExpTipo            go to state 10
 
 
 State 7
 
-    6 ExpR: ExpA . TMENOR ExpA
-    7     | ExpA . TMAIOR ExpA
-    8     | ExpA . TMAIORIGUAL ExpA
-    9     | ExpA . TMENORIGUAL ExpA
-   10     | ExpA . TIGUALIGUAL ExpA
-   11     | ExpA . TDIFF ExpA
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+    4 ExpFuncao: ExpTFuncao .
 
-    TADD         shift, and go to state 16
-    TSUB         shift, and go to state 17
-    TMENOR       shift, and go to state 18
-    TMAIOR       shift, and go to state 19
-    TMAIORIGUAL  shift, and go to state 20
-    TMENORIGUAL  shift, and go to state 21
-    TIGUALIGUAL  shift, and go to state 22
-    TDIFF        shift, and go to state 23
+    $default  reduce using rule 4 (ExpFuncao)
 
 
 State 8
 
-   15 ExpA: Termo .
-   16 Termo: Termo . TMUL Fator
-   17      | Termo . TDIV Fator
+    5 ExpTFuncao: ExpTRetorno . TID TAPAR ExpParams TFPAR ExpBlocoPrincipal
+    6           | ExpTRetorno . TID TAPAR TFPAR ExpBlocoPrincipal
 
-    TMUL  shift, and go to state 24
-    TDIV  shift, and go to state 25
-
-    $default  reduce using rule 15 (ExpA)
+    TID  shift, and go to state 32
 
 
 State 9
 
-   18 Termo: Fator .
+    2 Inicio: ExpBlocoPrincipal .
 
-    $default  reduce using rule 18 (Termo)
+    $default  reduce using rule 2 (Inicio)
 
 
 State 10
 
-   12 ExpR: TAPAR ExpR . TFPAR
+    8 ExpTRetorno: ExpTipo .
 
-    TFPAR  shift, and go to state 26
+    $default  reduce using rule 8 (ExpTRetorno)
 
 
 State 11
 
-    6 ExpR: ExpA . TMENOR ExpA
-    7     | ExpA . TMAIOR ExpA
-    8     | ExpA . TMAIORIGUAL ExpA
-    9     | ExpA . TMENORIGUAL ExpA
-   10     | ExpA . TIGUALIGUAL ExpA
-   11     | ExpA . TDIFF ExpA
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
-   20 Fator: TAPAR ExpA . TFPAR
+   32 CmdSe: TIF . TAPAR ExpL TFPAR ExpBloco
+   33      | TIF . TAPAR ExpL TFPAR ExpBloco TELSE ExpBloco
 
-    TADD         shift, and go to state 16
-    TSUB         shift, and go to state 17
-    TFPAR        shift, and go to state 27
-    TMENOR       shift, and go to state 18
-    TMAIOR       shift, and go to state 19
-    TMAIORIGUAL  shift, and go to state 20
-    TMENORIGUAL  shift, and go to state 21
-    TIGUALIGUAL  shift, and go to state 22
-    TDIFF        shift, and go to state 23
+    TAPAR  shift, and go to state 33
 
 
 State 12
 
-    4 ExpN: TNEG ExpN .
+   34 ExpWhile: TWHILE . TAPAR ExpL TFPAR ExpBloco
 
-    $default  reduce using rule 4 (ExpN)
+    TAPAR  shift, and go to state 34
 
 
 State 13
 
-    0 $accept: ExpL $end .
+   31 ExpReturn: TRETURN . ExpA TPTVIRGULA
 
-    $default  accept
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 39
+    Termo  go to state 40
+    Fator  go to state 41
 
 
 State 14
 
-    1 ExpL: ExpL TEE . ExpN
+   37 ExpPrintf: TPRINTF . TAPAR ExpA TFPAR TPTVIRGULA
+   38          | TPRINTF . TAPAR TTEXTO TFPAR TPTVIRGULA
 
-    TAPAR  shift, and go to state 1
-    TNUM   shift, and go to state 2
-    TNEG   shift, and go to state 3
-
-    ExpN   go to state 28
-    ExpR   go to state 6
-    ExpA   go to state 7
-    Termo  go to state 8
-    Fator  go to state 9
+    TAPAR  shift, and go to state 42
 
 
 State 15
 
-    2 ExpL: ExpL TOU . ExpN
+   39 ExpRead: TREAD . TAPAR TID TFPAR TPTVIRGULA
 
-    TAPAR  shift, and go to state 1
-    TNUM   shift, and go to state 2
-    TNEG   shift, and go to state 3
-
-    ExpN   go to state 29
-    ExpR   go to state 6
-    ExpA   go to state 7
-    Termo  go to state 8
-    Fator  go to state 9
+    TAPAR  shift, and go to state 43
 
 
 State 16
 
-   13 ExpA: ExpA TADD . Termo
+   35 ExpAtribuic: TID . TATRIBUIC ExpA TPTVIRGULA
+   36            | TID . TATRIBUIC TTEXTO TPTVIRGULA
+   40 ExpChamaFunc: TID . TAPAR ExpFuncParams TFPAR TPTVIRGULA
+   41             | TID . TAPAR TFPAR TPTVIRGULA
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    Termo  go to state 31
-    Fator  go to state 9
+    TAPAR      shift, and go to state 44
+    TATRIBUIC  shift, and go to state 45
 
 
 State 17
 
-   14 ExpA: ExpA TSUB . Termo
+   13 ExpBlocoPrincipal: TACHAVES ExpVariaveis . ExpListaCmd TFCHAVES
+   15 ExpVariaveis: ExpVariaveis . ExpTVariavel
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
+    TIF      shift, and go to state 11
+    TWHILE   shift, and go to state 12
+    TRETURN  shift, and go to state 13
+    TPRINTF  shift, and go to state 14
+    TREAD    shift, and go to state 15
+    TINT     shift, and go to state 2
+    TSTRING  shift, and go to state 3
+    TID      shift, and go to state 16
 
-    Termo  go to state 32
-    Fator  go to state 9
+    ExpTVariavel  go to state 46
+    ExpTipo       go to state 19
+    ExpListaCmd   go to state 47
+    ExpComando    go to state 21
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
 
 
 State 18
 
-    6 ExpR: ExpA TMENOR . ExpA
+   16 ExpVariaveis: ExpTVariavel .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    ExpA   go to state 33
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 16 (ExpVariaveis)
 
 
 State 19
 
-    7 ExpR: ExpA TMAIOR . ExpA
+   17 ExpTVariavel: ExpTipo . ExpListaID TPTVIRGULA
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
+    TID  shift, and go to state 48
 
-    ExpA   go to state 34
-    Termo  go to state 8
-    Fator  go to state 9
+    ExpListaID  go to state 49
 
 
 State 20
 
-    8 ExpR: ExpA TMAIORIGUAL . ExpA
+   14 ExpBlocoPrincipal: TACHAVES ExpListaCmd . TFCHAVES
+   22 ExpListaCmd: ExpListaCmd . ExpComando
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
+    TIF       shift, and go to state 11
+    TWHILE    shift, and go to state 12
+    TRETURN   shift, and go to state 13
+    TPRINTF   shift, and go to state 14
+    TREAD     shift, and go to state 15
+    TFCHAVES  shift, and go to state 50
+    TID       shift, and go to state 16
 
-    ExpA   go to state 35
-    Termo  go to state 8
-    Fator  go to state 9
+    ExpComando    go to state 51
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
 
 
 State 21
 
-    9 ExpR: ExpA TMENORIGUAL . ExpA
+   23 ExpListaCmd: ExpComando .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    ExpA   go to state 36
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 23 (ExpListaCmd)
 
 
 State 22
 
-   10 ExpR: ExpA TIGUALIGUAL . ExpA
+   30 ExpComando: ExpReturn .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    ExpA   go to state 37
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 30 (ExpComando)
 
 
 State 23
 
-   11 ExpR: ExpA TDIFF . ExpA
+   24 ExpComando: CmdSe .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    ExpA   go to state 38
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 24 (ExpComando)
 
 
 State 24
 
-   16 Termo: Termo TMUL . Fator
+   25 ExpComando: ExpWhile .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    Fator  go to state 39
+    $default  reduce using rule 25 (ExpComando)
 
 
 State 25
 
-   17 Termo: Termo TDIV . Fator
+   26 ExpComando: ExpAtribuic .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    Fator  go to state 40
+    $default  reduce using rule 26 (ExpComando)
 
 
 State 26
 
-   12 ExpR: TAPAR ExpR TFPAR .
+   27 ExpComando: ExpPrintf .
 
-    $default  reduce using rule 12 (ExpR)
+    $default  reduce using rule 27 (ExpComando)
 
 
 State 27
 
-   20 Fator: TAPAR ExpA TFPAR .
+   28 ExpComando: ExpRead .
 
-    $default  reduce using rule 20 (Fator)
+    $default  reduce using rule 28 (ExpComando)
 
 
 State 28
 
-    1 ExpL: ExpL TEE ExpN .
+   29 ExpComando: ExpChamaFunc .
 
-    $default  reduce using rule 1 (ExpL)
+    $default  reduce using rule 29 (ExpComando)
 
 
 State 29
 
-    2 ExpL: ExpL TOU ExpN .
+    0 $accept: Inicio $end .
 
-    $default  reduce using rule 2 (ExpL)
+    $default  accept
 
 
 State 30
 
-   20 Fator: TAPAR . ExpA TFPAR
+    3 ExpFuncao: ExpFuncao ExpTFuncao .
 
-    TAPAR  shift, and go to state 30
-    TNUM   shift, and go to state 2
-
-    ExpA   go to state 41
-    Termo  go to state 8
-    Fator  go to state 9
+    $default  reduce using rule 3 (ExpFuncao)
 
 
 State 31
 
-   13 ExpA: ExpA TADD Termo .
-   16 Termo: Termo . TMUL Fator
-   17      | Termo . TDIV Fator
+    1 Inicio: ExpFuncao ExpBlocoPrincipal .
 
-    TMUL  shift, and go to state 24
-    TDIV  shift, and go to state 25
-
-    $default  reduce using rule 13 (ExpA)
+    $default  reduce using rule 1 (Inicio)
 
 
 State 32
 
-   14 ExpA: ExpA TSUB Termo .
-   16 Termo: Termo . TMUL Fator
-   17      | Termo . TDIV Fator
+    5 ExpTFuncao: ExpTRetorno TID . TAPAR ExpParams TFPAR ExpBlocoPrincipal
+    6           | ExpTRetorno TID . TAPAR TFPAR ExpBlocoPrincipal
 
-    TMUL  shift, and go to state 24
-    TDIV  shift, and go to state 25
-
-    $default  reduce using rule 14 (ExpA)
+    TAPAR  shift, and go to state 52
 
 
 State 33
 
-    6 ExpR: ExpA TMENOR ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   32 CmdSe: TIF TAPAR . ExpL TFPAR ExpBloco
+   33      | TIF TAPAR . ExpL TFPAR ExpBloco TELSE ExpBloco
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TNEG   shift, and go to state 54
+    TID    shift, and go to state 38
 
-    $default  reduce using rule 6 (ExpR)
+    ExpL   go to state 55
+    ExpN   go to state 56
+    ExpR   go to state 57
+    ExpA   go to state 58
+    Termo  go to state 40
+    Fator  go to state 41
 
 
 State 34
 
-    7 ExpR: ExpA TMAIOR ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   34 ExpWhile: TWHILE TAPAR . ExpL TFPAR ExpBloco
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TNEG   shift, and go to state 54
+    TID    shift, and go to state 38
 
-    $default  reduce using rule 7 (ExpR)
+    ExpL   go to state 59
+    ExpN   go to state 56
+    ExpR   go to state 57
+    ExpA   go to state 58
+    Termo  go to state 40
+    Fator  go to state 41
 
 
 State 35
 
-    8 ExpR: ExpA TMAIORIGUAL ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   65 Fator: TSUB . Fator
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
 
-    $default  reduce using rule 8 (ExpR)
+    Fator  go to state 60
 
 
 State 36
 
-    9 ExpR: ExpA TMENORIGUAL ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   64 Fator: TAPAR . ExpA TFPAR
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
 
-    $default  reduce using rule 9 (ExpR)
+    ExpA   go to state 61
+    Termo  go to state 40
+    Fator  go to state 41
 
 
 State 37
 
-   10 ExpR: ExpA TIGUALIGUAL ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   63 Fator: TNUM .
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
-
-    $default  reduce using rule 10 (ExpR)
+    $default  reduce using rule 63 (Fator)
 
 
 State 38
 
-   11 ExpR: ExpA TDIFF ExpA .
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
+   62 Fator: TID .
 
-    TADD  shift, and go to state 16
-    TSUB  shift, and go to state 17
-
-    $default  reduce using rule 11 (ExpR)
+    $default  reduce using rule 62 (Fator)
 
 
 State 39
 
-   16 Termo: Termo TMUL Fator .
+   31 ExpReturn: TRETURN ExpA . TPTVIRGULA
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
 
-    $default  reduce using rule 16 (Termo)
+    TADD        shift, and go to state 62
+    TSUB        shift, and go to state 63
+    TPTVIRGULA  shift, and go to state 64
 
 
 State 40
 
-   17 Termo: Termo TDIV Fator .
+   58 ExpA: Termo .
+   59 Termo: Termo . TMUL Fator
+   60      | Termo . TDIV Fator
 
-    $default  reduce using rule 17 (Termo)
+    TMUL  shift, and go to state 65
+    TDIV  shift, and go to state 66
+
+    $default  reduce using rule 58 (ExpA)
 
 
 State 41
 
-   13 ExpA: ExpA . TADD Termo
-   14     | ExpA . TSUB Termo
-   20 Fator: TAPAR ExpA . TFPAR
+   61 Termo: Fator .
 
-    TADD   shift, and go to state 16
-    TSUB   shift, and go to state 17
-    TFPAR  shift, and go to state 27
+    $default  reduce using rule 61 (Termo)
+
+
+State 42
+
+   37 ExpPrintf: TPRINTF TAPAR . ExpA TFPAR TPTVIRGULA
+   38          | TPRINTF TAPAR . TTEXTO TFPAR TPTVIRGULA
+
+    TSUB    shift, and go to state 35
+    TAPAR   shift, and go to state 36
+    TNUM    shift, and go to state 37
+    TTEXTO  shift, and go to state 67
+    TID     shift, and go to state 38
+
+    ExpA   go to state 68
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 43
+
+   39 ExpRead: TREAD TAPAR . TID TFPAR TPTVIRGULA
+
+    TID  shift, and go to state 69
+
+
+State 44
+
+   40 ExpChamaFunc: TID TAPAR . ExpFuncParams TFPAR TPTVIRGULA
+   41             | TID TAPAR . TFPAR TPTVIRGULA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TFPAR  shift, and go to state 70
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpFuncParams  go to state 71
+    ExpA           go to state 72
+    Termo          go to state 40
+    Fator          go to state 41
+
+
+State 45
+
+   35 ExpAtribuic: TID TATRIBUIC . ExpA TPTVIRGULA
+   36            | TID TATRIBUIC . TTEXTO TPTVIRGULA
+
+    TSUB    shift, and go to state 35
+    TAPAR   shift, and go to state 36
+    TNUM    shift, and go to state 37
+    TTEXTO  shift, and go to state 73
+    TID     shift, and go to state 38
+
+    ExpA   go to state 74
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 46
+
+   15 ExpVariaveis: ExpVariaveis ExpTVariavel .
+
+    $default  reduce using rule 15 (ExpVariaveis)
+
+
+State 47
+
+   13 ExpBlocoPrincipal: TACHAVES ExpVariaveis ExpListaCmd . TFCHAVES
+   22 ExpListaCmd: ExpListaCmd . ExpComando
+
+    TIF       shift, and go to state 11
+    TWHILE    shift, and go to state 12
+    TRETURN   shift, and go to state 13
+    TPRINTF   shift, and go to state 14
+    TREAD     shift, and go to state 15
+    TFCHAVES  shift, and go to state 75
+    TID       shift, and go to state 16
+
+    ExpComando    go to state 51
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
+
+
+State 48
+
+   21 ExpListaID: TID .
+
+    $default  reduce using rule 21 (ExpListaID)
+
+
+State 49
+
+   17 ExpTVariavel: ExpTipo ExpListaID . TPTVIRGULA
+   20 ExpListaID: ExpListaID . TVIRGULA TID
+
+    TPTVIRGULA  shift, and go to state 76
+    TVIRGULA    shift, and go to state 77
+
+
+State 50
+
+   14 ExpBlocoPrincipal: TACHAVES ExpListaCmd TFCHAVES .
+
+    $default  reduce using rule 14 (ExpBlocoPrincipal)
+
+
+State 51
+
+   22 ExpListaCmd: ExpListaCmd ExpComando .
+
+    $default  reduce using rule 22 (ExpListaCmd)
+
+
+State 52
+
+    5 ExpTFuncao: ExpTRetorno TID TAPAR . ExpParams TFPAR ExpBlocoPrincipal
+    6           | ExpTRetorno TID TAPAR . TFPAR ExpBlocoPrincipal
+
+    TFPAR    shift, and go to state 78
+    TINT     shift, and go to state 2
+    TSTRING  shift, and go to state 3
+
+    ExpParams   go to state 79
+    ExpTParams  go to state 80
+    ExpTipo     go to state 81
+
+
+State 53
+
+   55 ExpR: TAPAR . ExpR TFPAR
+   64 Fator: TAPAR . ExpA TFPAR
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpR   go to state 82
+    ExpA   go to state 83
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 54
+
+   47 ExpN: TNEG . ExpN
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TNEG   shift, and go to state 54
+    TID    shift, and go to state 38
+
+    ExpN   go to state 84
+    ExpR   go to state 57
+    ExpA   go to state 58
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 55
+
+   32 CmdSe: TIF TAPAR ExpL . TFPAR ExpBloco
+   33      | TIF TAPAR ExpL . TFPAR ExpBloco TELSE ExpBloco
+   44 ExpL: ExpL . TEE ExpN
+   45     | ExpL . TOU ExpN
+
+    TFPAR  shift, and go to state 85
+    TEE    shift, and go to state 86
+    TOU    shift, and go to state 87
+
+
+State 56
+
+   46 ExpL: ExpN .
+
+    $default  reduce using rule 46 (ExpL)
+
+
+State 57
+
+   48 ExpN: ExpR .
+
+    $default  reduce using rule 48 (ExpN)
+
+
+State 58
+
+   49 ExpR: ExpA . TMENOR ExpA
+   50     | ExpA . TMAIOR ExpA
+   51     | ExpA . TMAIORIGUAL ExpA
+   52     | ExpA . TMENORIGUAL ExpA
+   53     | ExpA . TIGUALIGUAL ExpA
+   54     | ExpA . TDIFF ExpA
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD         shift, and go to state 62
+    TSUB         shift, and go to state 63
+    TMENOR       shift, and go to state 88
+    TMAIOR       shift, and go to state 89
+    TMAIORIGUAL  shift, and go to state 90
+    TMENORIGUAL  shift, and go to state 91
+    TIGUALIGUAL  shift, and go to state 92
+    TDIFF        shift, and go to state 93
+
+
+State 59
+
+   34 ExpWhile: TWHILE TAPAR ExpL . TFPAR ExpBloco
+   44 ExpL: ExpL . TEE ExpN
+   45     | ExpL . TOU ExpN
+
+    TFPAR  shift, and go to state 94
+    TEE    shift, and go to state 86
+    TOU    shift, and go to state 87
+
+
+State 60
+
+   65 Fator: TSUB Fator .
+
+    $default  reduce using rule 65 (Fator)
+
+
+State 61
+
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+   64 Fator: TAPAR ExpA . TFPAR
+
+    TADD   shift, and go to state 62
+    TSUB   shift, and go to state 63
+    TFPAR  shift, and go to state 95
+
+
+State 62
+
+   56 ExpA: ExpA TADD . Termo
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    Termo  go to state 96
+    Fator  go to state 41
+
+
+State 63
+
+   57 ExpA: ExpA TSUB . Termo
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    Termo  go to state 97
+    Fator  go to state 41
+
+
+State 64
+
+   31 ExpReturn: TRETURN ExpA TPTVIRGULA .
+
+    $default  reduce using rule 31 (ExpReturn)
+
+
+State 65
+
+   59 Termo: Termo TMUL . Fator
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    Fator  go to state 98
+
+
+State 66
+
+   60 Termo: Termo TDIV . Fator
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    Fator  go to state 99
+
+
+State 67
+
+   38 ExpPrintf: TPRINTF TAPAR TTEXTO . TFPAR TPTVIRGULA
+
+    TFPAR  shift, and go to state 100
+
+
+State 68
+
+   37 ExpPrintf: TPRINTF TAPAR ExpA . TFPAR TPTVIRGULA
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD   shift, and go to state 62
+    TSUB   shift, and go to state 63
+    TFPAR  shift, and go to state 101
+
+
+State 69
+
+   39 ExpRead: TREAD TAPAR TID . TFPAR TPTVIRGULA
+
+    TFPAR  shift, and go to state 102
+
+
+State 70
+
+   41 ExpChamaFunc: TID TAPAR TFPAR . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 103
+
+
+State 71
+
+   40 ExpChamaFunc: TID TAPAR ExpFuncParams . TFPAR TPTVIRGULA
+   42 ExpFuncParams: ExpFuncParams . TVIRGULA ExpA
+
+    TFPAR     shift, and go to state 104
+    TVIRGULA  shift, and go to state 105
+
+
+State 72
+
+   43 ExpFuncParams: ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 43 (ExpFuncParams)
+
+
+State 73
+
+   36 ExpAtribuic: TID TATRIBUIC TTEXTO . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 106
+
+
+State 74
+
+   35 ExpAtribuic: TID TATRIBUIC ExpA . TPTVIRGULA
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD        shift, and go to state 62
+    TSUB        shift, and go to state 63
+    TPTVIRGULA  shift, and go to state 107
+
+
+State 75
+
+   13 ExpBlocoPrincipal: TACHAVES ExpVariaveis ExpListaCmd TFCHAVES .
+
+    $default  reduce using rule 13 (ExpBlocoPrincipal)
+
+
+State 76
+
+   17 ExpTVariavel: ExpTipo ExpListaID TPTVIRGULA .
+
+    $default  reduce using rule 17 (ExpTVariavel)
+
+
+State 77
+
+   20 ExpListaID: ExpListaID TVIRGULA . TID
+
+    TID  shift, and go to state 108
+
+
+State 78
+
+    6 ExpTFuncao: ExpTRetorno TID TAPAR TFPAR . ExpBlocoPrincipal
+
+    TACHAVES  shift, and go to state 1
+
+    ExpBlocoPrincipal  go to state 109
+
+
+State 79
+
+    5 ExpTFuncao: ExpTRetorno TID TAPAR ExpParams . TFPAR ExpBlocoPrincipal
+   10 ExpParams: ExpParams . TVIRGULA ExpTParams
+
+    TFPAR     shift, and go to state 110
+    TVIRGULA  shift, and go to state 111
+
+
+State 80
+
+   11 ExpParams: ExpTParams .
+
+    $default  reduce using rule 11 (ExpParams)
+
+
+State 81
+
+   12 ExpTParams: ExpTipo . TID
+
+    TID  shift, and go to state 112
+
+
+State 82
+
+   55 ExpR: TAPAR ExpR . TFPAR
+
+    TFPAR  shift, and go to state 113
+
+
+State 83
+
+   49 ExpR: ExpA . TMENOR ExpA
+   50     | ExpA . TMAIOR ExpA
+   51     | ExpA . TMAIORIGUAL ExpA
+   52     | ExpA . TMENORIGUAL ExpA
+   53     | ExpA . TIGUALIGUAL ExpA
+   54     | ExpA . TDIFF ExpA
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+   64 Fator: TAPAR ExpA . TFPAR
+
+    TADD         shift, and go to state 62
+    TSUB         shift, and go to state 63
+    TFPAR        shift, and go to state 95
+    TMENOR       shift, and go to state 88
+    TMAIOR       shift, and go to state 89
+    TMAIORIGUAL  shift, and go to state 90
+    TMENORIGUAL  shift, and go to state 91
+    TIGUALIGUAL  shift, and go to state 92
+    TDIFF        shift, and go to state 93
+
+
+State 84
+
+   47 ExpN: TNEG ExpN .
+
+    $default  reduce using rule 47 (ExpN)
+
+
+State 85
+
+   32 CmdSe: TIF TAPAR ExpL TFPAR . ExpBloco
+   33      | TIF TAPAR ExpL TFPAR . ExpBloco TELSE ExpBloco
+
+    TACHAVES  shift, and go to state 114
+
+    ExpBloco  go to state 115
+
+
+State 86
+
+   44 ExpL: ExpL TEE . ExpN
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TNEG   shift, and go to state 54
+    TID    shift, and go to state 38
+
+    ExpN   go to state 116
+    ExpR   go to state 57
+    ExpA   go to state 58
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 87
+
+   45 ExpL: ExpL TOU . ExpN
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 53
+    TNUM   shift, and go to state 37
+    TNEG   shift, and go to state 54
+    TID    shift, and go to state 38
+
+    ExpN   go to state 117
+    ExpR   go to state 57
+    ExpA   go to state 58
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 88
+
+   49 ExpR: ExpA TMENOR . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 118
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 89
+
+   50 ExpR: ExpA TMAIOR . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 119
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 90
+
+   51 ExpR: ExpA TMAIORIGUAL . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 120
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 91
+
+   52 ExpR: ExpA TMENORIGUAL . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 121
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 92
+
+   53 ExpR: ExpA TIGUALIGUAL . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 122
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 93
+
+   54 ExpR: ExpA TDIFF . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 123
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 94
+
+   34 ExpWhile: TWHILE TAPAR ExpL TFPAR . ExpBloco
+
+    TACHAVES  shift, and go to state 114
+
+    ExpBloco  go to state 124
+
+
+State 95
+
+   64 Fator: TAPAR ExpA TFPAR .
+
+    $default  reduce using rule 64 (Fator)
+
+
+State 96
+
+   56 ExpA: ExpA TADD Termo .
+   59 Termo: Termo . TMUL Fator
+   60      | Termo . TDIV Fator
+
+    TMUL  shift, and go to state 65
+    TDIV  shift, and go to state 66
+
+    $default  reduce using rule 56 (ExpA)
+
+
+State 97
+
+   57 ExpA: ExpA TSUB Termo .
+   59 Termo: Termo . TMUL Fator
+   60      | Termo . TDIV Fator
+
+    TMUL  shift, and go to state 65
+    TDIV  shift, and go to state 66
+
+    $default  reduce using rule 57 (ExpA)
+
+
+State 98
+
+   59 Termo: Termo TMUL Fator .
+
+    $default  reduce using rule 59 (Termo)
+
+
+State 99
+
+   60 Termo: Termo TDIV Fator .
+
+    $default  reduce using rule 60 (Termo)
+
+
+State 100
+
+   38 ExpPrintf: TPRINTF TAPAR TTEXTO TFPAR . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 125
+
+
+State 101
+
+   37 ExpPrintf: TPRINTF TAPAR ExpA TFPAR . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 126
+
+
+State 102
+
+   39 ExpRead: TREAD TAPAR TID TFPAR . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 127
+
+
+State 103
+
+   41 ExpChamaFunc: TID TAPAR TFPAR TPTVIRGULA .
+
+    $default  reduce using rule 41 (ExpChamaFunc)
+
+
+State 104
+
+   40 ExpChamaFunc: TID TAPAR ExpFuncParams TFPAR . TPTVIRGULA
+
+    TPTVIRGULA  shift, and go to state 128
+
+
+State 105
+
+   42 ExpFuncParams: ExpFuncParams TVIRGULA . ExpA
+
+    TSUB   shift, and go to state 35
+    TAPAR  shift, and go to state 36
+    TNUM   shift, and go to state 37
+    TID    shift, and go to state 38
+
+    ExpA   go to state 129
+    Termo  go to state 40
+    Fator  go to state 41
+
+
+State 106
+
+   36 ExpAtribuic: TID TATRIBUIC TTEXTO TPTVIRGULA .
+
+    $default  reduce using rule 36 (ExpAtribuic)
+
+
+State 107
+
+   35 ExpAtribuic: TID TATRIBUIC ExpA TPTVIRGULA .
+
+    $default  reduce using rule 35 (ExpAtribuic)
+
+
+State 108
+
+   20 ExpListaID: ExpListaID TVIRGULA TID .
+
+    $default  reduce using rule 20 (ExpListaID)
+
+
+State 109
+
+    6 ExpTFuncao: ExpTRetorno TID TAPAR TFPAR ExpBlocoPrincipal .
+
+    $default  reduce using rule 6 (ExpTFuncao)
+
+
+State 110
+
+    5 ExpTFuncao: ExpTRetorno TID TAPAR ExpParams TFPAR . ExpBlocoPrincipal
+
+    TACHAVES  shift, and go to state 1
+
+    ExpBlocoPrincipal  go to state 130
+
+
+State 111
+
+   10 ExpParams: ExpParams TVIRGULA . ExpTParams
+
+    TINT     shift, and go to state 2
+    TSTRING  shift, and go to state 3
+
+    ExpTParams  go to state 131
+    ExpTipo     go to state 81
+
+
+State 112
+
+   12 ExpTParams: ExpTipo TID .
+
+    $default  reduce using rule 12 (ExpTParams)
+
+
+State 113
+
+   55 ExpR: TAPAR ExpR TFPAR .
+
+    $default  reduce using rule 55 (ExpR)
+
+
+State 114
+
+    7 ExpBloco: TACHAVES . ExpListaCmd TFCHAVES
+
+    TIF      shift, and go to state 11
+    TWHILE   shift, and go to state 12
+    TRETURN  shift, and go to state 13
+    TPRINTF  shift, and go to state 14
+    TREAD    shift, and go to state 15
+    TID      shift, and go to state 16
+
+    ExpListaCmd   go to state 132
+    ExpComando    go to state 21
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
+
+
+State 115
+
+   32 CmdSe: TIF TAPAR ExpL TFPAR ExpBloco .
+   33      | TIF TAPAR ExpL TFPAR ExpBloco . TELSE ExpBloco
+
+    TELSE  shift, and go to state 133
+
+    $default  reduce using rule 32 (CmdSe)
+
+
+State 116
+
+   44 ExpL: ExpL TEE ExpN .
+
+    $default  reduce using rule 44 (ExpL)
+
+
+State 117
+
+   45 ExpL: ExpL TOU ExpN .
+
+    $default  reduce using rule 45 (ExpL)
+
+
+State 118
+
+   49 ExpR: ExpA TMENOR ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 49 (ExpR)
+
+
+State 119
+
+   50 ExpR: ExpA TMAIOR ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 50 (ExpR)
+
+
+State 120
+
+   51 ExpR: ExpA TMAIORIGUAL ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 51 (ExpR)
+
+
+State 121
+
+   52 ExpR: ExpA TMENORIGUAL ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 52 (ExpR)
+
+
+State 122
+
+   53 ExpR: ExpA TIGUALIGUAL ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 53 (ExpR)
+
+
+State 123
+
+   54 ExpR: ExpA TDIFF ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 54 (ExpR)
+
+
+State 124
+
+   34 ExpWhile: TWHILE TAPAR ExpL TFPAR ExpBloco .
+
+    $default  reduce using rule 34 (ExpWhile)
+
+
+State 125
+
+   38 ExpPrintf: TPRINTF TAPAR TTEXTO TFPAR TPTVIRGULA .
+
+    $default  reduce using rule 38 (ExpPrintf)
+
+
+State 126
+
+   37 ExpPrintf: TPRINTF TAPAR ExpA TFPAR TPTVIRGULA .
+
+    $default  reduce using rule 37 (ExpPrintf)
+
+
+State 127
+
+   39 ExpRead: TREAD TAPAR TID TFPAR TPTVIRGULA .
+
+    $default  reduce using rule 39 (ExpRead)
+
+
+State 128
+
+   40 ExpChamaFunc: TID TAPAR ExpFuncParams TFPAR TPTVIRGULA .
+
+    $default  reduce using rule 40 (ExpChamaFunc)
+
+
+State 129
+
+   42 ExpFuncParams: ExpFuncParams TVIRGULA ExpA .
+   56 ExpA: ExpA . TADD Termo
+   57     | ExpA . TSUB Termo
+
+    TADD  shift, and go to state 62
+    TSUB  shift, and go to state 63
+
+    $default  reduce using rule 42 (ExpFuncParams)
+
+
+State 130
+
+    5 ExpTFuncao: ExpTRetorno TID TAPAR ExpParams TFPAR ExpBlocoPrincipal .
+
+    $default  reduce using rule 5 (ExpTFuncao)
+
+
+State 131
+
+   10 ExpParams: ExpParams TVIRGULA ExpTParams .
+
+    $default  reduce using rule 10 (ExpParams)
+
+
+State 132
+
+    7 ExpBloco: TACHAVES ExpListaCmd . TFCHAVES
+   22 ExpListaCmd: ExpListaCmd . ExpComando
+
+    TIF       shift, and go to state 11
+    TWHILE    shift, and go to state 12
+    TRETURN   shift, and go to state 13
+    TPRINTF   shift, and go to state 14
+    TREAD     shift, and go to state 15
+    TFCHAVES  shift, and go to state 134
+    TID       shift, and go to state 16
+
+    ExpComando    go to state 51
+    ExpReturn     go to state 22
+    CmdSe         go to state 23
+    ExpWhile      go to state 24
+    ExpAtribuic   go to state 25
+    ExpPrintf     go to state 26
+    ExpRead       go to state 27
+    ExpChamaFunc  go to state 28
+
+
+State 133
+
+   33 CmdSe: TIF TAPAR ExpL TFPAR ExpBloco TELSE . ExpBloco
+
+    TACHAVES  shift, and go to state 114
+
+    ExpBloco  go to state 135
+
+
+State 134
+
+    7 ExpBloco: TACHAVES ExpListaCmd TFCHAVES .
+
+    $default  reduce using rule 7 (ExpBloco)
+
+
+State 135
+
+   33 CmdSe: TIF TAPAR ExpL TFPAR ExpBloco TELSE ExpBloco .
+
+    $default  reduce using rule 33 (CmdSe)

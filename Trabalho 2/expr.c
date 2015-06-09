@@ -4,12 +4,12 @@ extern FILE *yyin;
 
 int main(int argc, char **argv)
 {
-	yyin = stdin;
-	printf("Digite uma expressão:");
-	yyparse();
-	return 0;
+	/* yyin = stdin; */
+	/* printf("Digite uma expressão:"); */
+	/* yyparse(); */
+	/* return 0; */
 	
-	/*if((yyin=fopen(argv[1],"r")) == NULL)
+	if((yyin=fopen(argv[1],"r")) == NULL)
 	{
 		printf("Erro! Informe um arquivo!\n");
 		return 0;
@@ -18,6 +18,6 @@ int main(int argc, char **argv)
 		yyparse();
 		fclose(yyin);
 		return 0;
-	}*/
+	}
 }
 
