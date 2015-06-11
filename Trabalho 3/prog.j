@@ -1,6 +1,7 @@
-
 {
-	int a, b;
+	int a;
+	int b;
+	string c;
 	read(a);
 	read(b);
 	printf(a);

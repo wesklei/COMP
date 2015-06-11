@@ -371,12 +371,12 @@ struct yy_trans_info
 static yyconst flex_int16_t yy_accept[74] =
     {   0,
         0,    0,   33,   32,    1,   14,   32,   32,    6,    7,
-        4,    2,   25,    3,    5,   31,   24,    8,   28,    9,
-       30,   30,   30,   30,   30,   30,   30,   30,   26,   32,
-       27,    1,   13,   29,    0,   15,   31,   11,   12,   10,
-       30,   30,   30,   30,   30,   30,   30,   30,   16,    0,
-       30,   21,   30,   30,   30,   30,   30,    0,   17,   30,
-       30,   30,   22,   30,    0,   30,   30,   30,   18,   23,
+        4,    2,   25,    3,    5,   30,   24,    8,   28,    9,
+       29,   29,   29,   29,   29,   29,   29,   29,   26,   32,
+       27,    1,   13,   31,    0,   15,   30,   11,   12,   10,
+       29,   29,   29,   29,   29,   29,   29,   29,   16,    0,
+       29,   21,   29,   29,   29,   29,   29,    0,   17,   29,
+       29,   29,   22,   29,    0,   29,   29,   29,   18,   23,
        19,   20,    0
     } ;
 
@@ -907,21 +907,21 @@ YY_RULE_SETUP
 case 29:
 YY_RULE_SETUP
 #line 39 "expr.l"
-{return TTEXTO;}
+{strcpy(yylval.nome,yytext);return TID;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 40 "expr.l"
-{return TID;}
+{yylval.valor = atoi(yytext); yylval.tipo = TINT; return TNUM;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 41 "expr.l"
-{return TNUM;} 
+{strcpy(yylval.imprimir,yytext);return TTEXTO;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 42 "expr.l"
+#line 43 "expr.l"
 ECHO;
 	YY_BREAK
 #line 928 "lex.yy.c"
@@ -1919,4 +1919,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "expr.l"
+#line 43 "expr.l"

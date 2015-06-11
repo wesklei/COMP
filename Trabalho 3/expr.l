@@ -36,6 +36,7 @@ id      ({caracter}|\_)({caracter}|{digito}|\_)*
 "{"	{return TACHAVES;}
 "}"	{return TFCHAVES;}
 "="	{return TATRIBUIC;}
-{texto} {return TTEXTO;}
-{id}	{return TID;}
-{num}	{return TNUM;} 
+{id}	{strcpy(yylval.nome,yytext);return TID;}
+{num}	{yylval.valor = atoi(yytext); yylval.tipo = TINT; return TNUM;}
+{texto} {strcpy(yylval.imprimir,yytext);return TTEXTO;}
+
