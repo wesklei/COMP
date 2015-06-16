@@ -5,22 +5,16 @@
 extern FILE *yyin;
 
 simbolos tabSimb[500];
-atributo listaVet[500];
-int cont=0,contLista=0,contCod=0;
-int contLabel=0,contFuncao=0;
-int contParametros=0;
-int contar=0;
-int funcaoPar=0,contPar=0;
-int posicao,contTeste=0,contCont=0;
+ListaVetor listaVet[500];
+int cont=0,contList=0,contCod=0,contLabel=0,contFuncao=0,contParametros=0,contar=0,contPar=0, posicao,contTeste=0,contCont=0;
 
 void teste(){
 	int i;
-	printf("\n\n\n\n\nTestando:\n\n\n");
-	
+	printf("\n Saida \n");
 	for(i=0;i<contTeste;i++)
 	{
-		printf("\nnomeId: %s",tabSimb[i].nomeId);
-		printf("       tipo: %s",tabSimb[i].tipo == 285 ? "int" : "string");
+		printf("\nId: %s",tabSimb[i].nomeId);
+		printf("       tipo: %d",tabSimb[i].tipo);
 		printf("        pos: %d",tabSimb[i].pos);
 	}
 	printf("\n");
@@ -49,38 +43,41 @@ int main(int argc, char **argv)
 	}
 }
 
-void criaLista(Lista lista)//funcao q so inicializa quant com '0'
+void criaList(Lista lista)//funcao q so inicializa quant com '0'
 {  	
 	lista.quant = 0;
 }
 
-int insereLista(Lista lista,char *yytext)//insere em um vetor de atributos o nome da variavel declarada no programa, incrementa uma variavel global, para saber o numero de variaveis existem no programa
+int insertList(Lista lista,char *yytext)//insere em um vetor de ListaVetors o nome da variavel declarada no programa, incrementa uma variavel global, para saber o numero de variaveis existem no programa
 {		
-	strcpy(listaVet[contLista].nome, yytext);  	
-	printf("inser => %s\n" , yytext);
-	contLista++;
+	strcpy(listaVet[contList].id, yytext);  	
+	contList++;
 	return SUCESSO;
 }
 
 int listaQuant(Lista lista) //passa o valor de variaveis para a variavel quant e retorna esse valor
 {   	
-	lista.quant = contLista;		
+	lista.quant = contList;		
 	return lista.quant;
 }
 
-int buscaLista(Lista lista, void *elemento, int posicao)//procura no vetor na posição passada e copia para elemento
+int buscaList(Lista lista, void *elemento, int posicao)//procura no vetor na posição passada e copia para elemento
 {
     //Verifica se lista não esta vazia e se a posicao existe
     if(listaQuant(lista) == 0 || listaQuant(lista)>posicao)
         return FRACASSO; //Sai fora
     else{
-	strcpy(elemento,listaVet[posicao].nome);
+	strcpy(elemento,listaVet[posicao].id);
     	return SUCESSO; 
     }
 }
 
+void destroiList(Lista lista)//so atribui '0' pra quant, se for preciso eh so sobreescrever o vetor
+{		
+	lista.quant=0;
+}
 
-int insereTabSimbolos(Lista lista, int tipo)//insere o nome das variaveis, o tipo delas e um valor de posição
+int insertTabela(Lista lista, int tipo)//insere o nome das variaveis, o tipo delas e um valor de posição
 {
 	
 	int i;
@@ -90,9 +87,8 @@ int insereTabSimbolos(Lista lista, int tipo)//insere o nome das variaveis, o tip
 		contTeste = (listaQuant(lista)+contPar);
 		for(i=contPar; i <contTeste; i++)
 		{
-			buscaLista(lista, &listaVet[cont].nome, cont);		
-			printf("coipou => %s\n" , listaVet[cont].nome);
-			strcpy(tabSimb[i].nomeId, listaVet[cont].nome);	
+			buscaList(lista, &listaVet[cont].id, cont);		
+			strcpy(tabSimb[i].nomeId, listaVet[cont].id);	
 			tabSimb[i].tipo = tipo;
 			tabSimb[i].pos = i;
 			cont++;
@@ -102,9 +98,8 @@ int insereTabSimbolos(Lista lista, int tipo)//insere o nome das variaveis, o tip
 	{	contTeste =  listaQuant(lista);
 		for(i=cont; i < listaQuant(lista); i++)
 		{     
-			buscaLista(lista, &listaVet[cont].nome, cont);
-			strcpy(tabSimb[i].nomeId, listaVet[cont].nome);	
-			printf("coipou2 =>  %s => pos %d\n" , listaVet[cont].nome, i);
+			buscaList(lista, &listaVet[cont].id, cont);
+			strcpy(tabSimb[i].nomeId, listaVet[cont].id);	
 			tabSimb[i].tipo = tipo;
 			tabSimb[i].pos = i;
 			cont++;
@@ -113,10 +108,6 @@ int insereTabSimbolos(Lista lista, int tipo)//insere o nome das variaveis, o tip
 
 	return SUCESSO;
 }
-void destroiLista(Lista lista)//so atribui '0' pra quant, se for preciso eh so sobreescrever o vetor
-{		
-	lista.quant=0;
-}
 
 
 void erro()//função que imprime erro se os tipos das variaveis forem diferentes, na hora de fazer operações entre elas
@@ -124,6 +115,3 @@ void erro()//função que imprime erro se os tipos das variaveis forem diferente
 	printf("\n Operacao com tipos invalidos \n");
 	exit(1);
 }
-
-
-		

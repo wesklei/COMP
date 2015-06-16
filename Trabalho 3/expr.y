@@ -2,107 +2,121 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tabela.h"
-#define YYSTYPE struct atributo
+#define YYSTYPE struct ListaVetor
 
 %}
 
-%token TADD TMUL TSUB TDIV TAPAR TFPAR TNUM TFIM TMENOR TMAIOR TMAIORIGUAL TMENORIGUAL TIGUALIGUAL TDIFF TNEG TEE TOU TIF TELSE TWHILE TRETURN TPRINTF TPTVIRGULA TVIRGULA TACHAVES TREAD TFCHAVES TINT TSTRING TATRIBUIC TVOID TTEXTO TID
+%token TADD TMUL TSUB TDIV TAPAR TFPAR TAND TOR TNOT TEQUAL TNEQUAL TBIG TSMALL TBIGEQUAL TSMALLEQUAL TIF TELSE TWHILE TRETURN TLITERAL TSTRING TINT TVOID TREAD TPRINT TDOTCOMA TCOMA TACHA TFCHA TATR TID TNUM TDO
+
 
 %%
-Inicio: ExpFuncao ExpBlocoPrincipal
-	| ExpBlocoPrincipal
+ 
+Inicio: ListFuncoes BlocoPrincipal
+	| BlocoPrincipal
 	;
-ExpFuncao: ExpFuncao ExpTFuncao
-	| ExpTFuncao
+ListFuncoes: ListFuncoes Funcao 
+	| Funcao
 	;
-ExpTFuncao: ExpTRetorno TID TAPAR ExpParams TFPAR ExpBlocoPrincipal 
-	| ExpTRetorno TID TAPAR TFPAR ExpBlocoPrincipal
+Funcao: TipoRetorno TID TAPAR DeclParametros TFPAR BlocoPrincipal
+	| TipoRetorno TID TAPAR TFPAR BlocoPrincipal
 	;
-ExpBloco: TACHAVES ExpListaCmd TFCHAVES
-	;
-ExpTRetorno: ExpTipo 
+TipoRetorno: Tipo
 	| TVOID
 	;
-ExpParams: ExpParams TVIRGULA ExpTParams
-	| ExpTParams
+DeclParametros: DeclParametros TCOMA Parametro
+	| Parametro
 	;
-ExpTParams: ExpTipo TID  
+Parametro: Tipo TID
 	;
-ExpBlocoPrincipal: TACHAVES ExpVariaveis ExpListaCmd TFCHAVES
-	| TACHAVES ExpListaCmd TFCHAVES
+BlocoPrincipal: TACHA Declaracoes ListCmd TFCHA
+	| TACHA ListCmd TFCHA
 	;
-ExpVariaveis: ExpVariaveis ExpTVariavel
-	| ExpTVariavel
+Declaracoes: Declaracoes Declaracao
+	| Declaracao
 	;
-ExpTVariavel: ExpTipo ExpListaID TPTVIRGULA {insereTabSimbolos($2.lista,$1.tipo);destroiLista($$.lista);}  
+Declaracao: Tipo ListId TDOTCOMA {insertTabela($2.lista,$1.tipo);destroiList($$.lista);} 
 	;
-ExpTipo: TINT {$$.tipo = TINT;}
-	| TSTRING {$$.tipo = TSTRING;}
+Tipo: TINT {$$.tipo = INT;}
+	| TSTRING {$$.tipo = STRING;}
 	;
-ExpListaID: ExpListaID TVIRGULA TID {insereLista($1.lista, $3.nome);}
-	| TID  {criaLista($$.lista); insereLista($$.lista,$1.nome);}
+ListId: ListId TCOMA TID {insertList($1.lista, $3.id);}
+	| TID {criaList($$.lista); insertList($$.lista,$1.id);}
 	;
-ExpListaCmd: ExpListaCmd ExpComando
-	| ExpComando
+Bloco: TACHA ListCmd TFCHA
 	;
-ExpComando: CmdSe
-	| ExpWhile
-	| ExpAtribuic
-	| ExpPrintf
-	| ExpRead
-	| ExpChamaFunc
-	| ExpReturn
+ListCmd: ListCmd Comando
+	| Comando
 	;
-ExpReturn: TRETURN ExpA TPTVIRGULA
+Comando: CmdSe
+	| CmdEnquanto
+	| CmdAtrib
+	| CmdEscrita
+	| CmdIncrementa
+	| CmdDecrementa
+	| CmdLeitura
+	| ChamadaFuncao
+	| Retorno
 	;
-CmdSe: TIF TAPAR ExpL TFPAR ExpBloco
-	| TIF TAPAR ExpL TFPAR ExpBloco TELSE ExpBloco
+Retorno: TRETURN ExpressaoAritmetica TDOTCOMA 
 	;
-ExpWhile: TWHILE TAPAR ExpL TFPAR ExpBloco
+CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco
+	| TIF TAPAR ExpressaoLogica TFPAR Bloco TELSE Bloco 
 	;
-ExpAtribuic: TID TATRIBUIC ExpA TPTVIRGULA 
-	| TID TATRIBUIC TTEXTO TPTVIRGULA  
+CmdEnquanto: TWHILE TAPAR ExpressaoLogica TFPAR Bloco
+	|TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA 
 	;
-ExpPrintf: TPRINTF TAPAR ExpA TFPAR TPTVIRGULA
-	| TPRINTF TAPAR TTEXTO TFPAR TPTVIRGULA
+CmdAtrib: TID TATR ExpressaoAritmetica TDOTCOMA
+	| TID TADD TATR 
+	| TID TATR TLITERAL TDOTCOMA
+	| TID TATR ChamadaFuncao
 	;
-ExpRead: TREAD TAPAR TID TFPAR TPTVIRGULA 
+CmdEscrita: TPRINT TAPAR Tipagem TFPAR TDOTCOMA
 	;
-ExpChamaFunc: TID TAPAR ExpFuncParams TFPAR TPTVIRGULA
-	| TID TAPAR TFPAR TPTVIRGULA 
+CmdIncrementa: TID TADD TADD TDOTCOMA
 	;
-ExpFuncParams: ExpFuncParams TVIRGULA ExpA
-	| ExpA
+CmdDecrementa: TID TSUB TSUB TDOTCOMA
 	;
-
-ExpL: ExpL TEE ExpN 
-	| ExpL TOU ExpN 
-	| ExpN
+CmdLeitura: TREAD TAPAR TID TFPAR TDOTCOMA
 	;
-ExpN: TNEG ExpN 
-	| ExpR
+ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA
+	| TID TAPAR TFPAR TDOTCOMA
 	;
-ExpR: ExpA TMENOR ExpA 
-   	| ExpA TMAIOR ExpA 
-	| ExpA TMAIORIGUAL ExpA 
-	| ExpA TMENORIGUAL ExpA 
-	| ExpA TIGUALIGUAL ExpA 
-	| ExpA TDIFF ExpA 
-	| TAPAR ExpR TFPAR
+ListParametros: ListParametros TCOMA ExpressaoAritmetica
+	| ExpressaoAritmetica
 	;
-ExpA: ExpA TADD Termo 
-	| ExpA TSUB Termo
+ExpressaoAritmetica: ExpressaoAritmetica TADD Termo
+	| ExpressaoAritmetica TSUB Termo
 	| Termo
 	;
-Termo: Termo TMUL Fator 
-	| Termo TDIV Fator 
+Termo: Termo TMUL Fator
+	| Termo TDIV Fator
 	| Fator
 	;
-Fator: TID  
-     	| TNUM 
-	| TAPAR ExpA TFPAR 
-	| TSUB Fator 
+Fator: TID 
+	| TAPAR ExpressaoAritmetica TFPAR
+	| TSUB Fator
+	| TNUM
 	;
+ExpressaoRelacional:  ExpressaoAritmetica TBIG ExpressaoAritmetica 
+	| ExpressaoAritmetica TSMALL ExpressaoAritmetica
+	| ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica
+	| ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica
+	| ExpressaoAritmetica TEQUAL ExpressaoAritmetica
+	| ExpressaoAritmetica TNEQUAL ExpressaoAritmetica
+	;			
+ExpressaoLogica: ExpressaoLogica TAND TermoLogico 
+	| ExpressaoLogica TOR TermoLogico
+	| TermoLogico
+	;
+TermoLogico: TNOT TermoLogico
+	| TAPAR ExpressaoLogica TFPAR
+	| ExpressaoRelacional 
+	;
+Tipagem: ExpressaoAritmetica
+	| TLITERAL
+	;
+
+
 %%
 #include "lex.yy.c"
 int flag=0;

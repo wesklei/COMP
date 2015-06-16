@@ -1,11 +1,11 @@
-caracter [a-zA-Z]
-char    [ -~]
 delim	[ \t\n]
 ws	{delim}+
 digito	[0-9]
+letra	[a-zA-Z]
+char    [ -~]
 num	{digito}+
-texto \"(char)*\"
-id      ({caracter}|\_)({caracter}|{digito}|\_)*
+id      ({letra}|\_)({letra}|{digito}|\_)*
+literal \"({char})*\"
 
 %%
 {ws}	{}
@@ -15,28 +15,56 @@ id      ({caracter}|\_)({caracter}|{digito}|\_)*
 "/"	{return TDIV;}
 "("	{return TAPAR;}
 ")"	{return TFPAR;}
-"<"	{return TMENOR;}
-">"	{return TMAIOR;}
-">="	{return TMAIORIGUAL;}
-"<="	{return TMENORIGUAL;}
-"=="	{return TIGUALIGUAL;}
-"!="	{return TDIFF;}
-"!"	{return TNEG;}
-"&&"	{return TEE;}
-"||"	{return TOU;}
+"&&"    {return TAND;}
+
+"||"    {return TOR;}
+
+"=="    {return TEQUAL;}
+
+"!="    {return TNEQUAL;}
+
+"!"     {return TNOT;}
+
+">="	{return TBIGEQUAL;}
+
+"<="    {return TSMALLEQUAL;}
+
+">"     {return TBIG;}
+
+"<"	{return TSMALL;}
+
+"if"    {return TIF;}
+
 "else"	{return TELSE;}
+
 "while"	{return TWHILE;}
+
+"do" {return TDO;}
+
 "return" {return TRETURN;}
-"string" {return TSTRING;}
+
+"String" {return TSTRING;}
+
 "int"	{return TINT;}
+
 "void"	{return TVOID;}
-"printf" {return TPRINTF;}
-";"	{return TPTVIRGULA;}
-","	{return TVIRGULA;}
-"{"	{return TACHAVES;}
-"}"	{return TFCHAVES;}
-"="	{return TATRIBUIC;}
-{id}	{strcpy(yylval.nome,yytext);return TID;}
-{num}	{yylval.valor = atoi(yytext); yylval.tipo = TINT; return TNUM;}
-{texto} {strcpy(yylval.imprimir,yytext);return TTEXTO;}
+
+"read"	{return TREAD;}
+
+"print"	{return TPRINT;}
+
+";"	{return TDOTCOMA;}
+
+","	{return TCOMA;}
+
+"{"	{return TACHA;}
+
+"}"	{return TFCHA;}
+
+"="	{return TATR;}
+
+
+{id}	{strcpy(yylval.id,yytext);return TID;}
+{num}	{yylval.valor = atoi(yytext); yylval.tipo = INT; return TNUM;}
+{literal} {strcpy(yylval.imprimir,yytext);return TLITERAL;}
 
