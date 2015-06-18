@@ -925,7 +925,7 @@ YY_RULE_SETUP
 case 32:
 YY_RULE_SETUP
 #line 67 "expr.l"
-{strcpy(yylval.id,yytext);return TID;}
+{strcpy(yylval.nome,yytext);return TID;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP

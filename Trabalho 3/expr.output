@@ -1,3 +1,13 @@
+Nonterminals useless in grammar
+
+   M
+
+
+Rules useless in grammar
+
+   76 M: %empty
+
+
 Grammar
 
     0 $accept: Inicio $end
@@ -57,92 +67,97 @@ Grammar
    37            | TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA
 
    38 CmdAtrib: TID TATR ExpressaoAritmetica TDOTCOMA
-   39         | TID TADD TATR
-   40         | TID TATR TLITERAL TDOTCOMA
-   41         | TID TATR ChamadaFuncao
 
-   42 CmdEscrita: TPRINT TAPAR Tipagem TFPAR TDOTCOMA
+   39 $@1: %empty
 
-   43 CmdIncrementa: TID TADD TADD TDOTCOMA
+   40 CmdAtrib: TID TADD TATR $@1 ExpressaoAritmetica TDOTCOMA
+   41         | TID TATR TLITERAL TDOTCOMA
+   42         | TID TATR ChamadaFuncao
 
-   44 CmdDecrementa: TID TSUB TSUB TDOTCOMA
+   43 CmdEscrita: TPRINT P TAPAR Tipagem TFPAR TDOTCOMA
 
-   45 CmdLeitura: TREAD TAPAR TID TFPAR TDOTCOMA
+   44 CmdIncrementa: TID TADD TADD TDOTCOMA
 
-   46 ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA
-   47              | TID TAPAR TFPAR TDOTCOMA
+   45 CmdDecrementa: TID TSUB TSUB TDOTCOMA
 
-   48 ListParametros: ListParametros TCOMA ExpressaoAritmetica
-   49               | ExpressaoAritmetica
+   46 CmdLeitura: TREAD TAPAR TID TFPAR TDOTCOMA
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica TADD Termo
-   51                    | ExpressaoAritmetica TSUB Termo
-   52                    | Termo
+   47 ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA
+   48              | TID TAPAR TFPAR TDOTCOMA
 
-   53 Termo: Termo TMUL Fator
-   54      | Termo TDIV Fator
-   55      | Fator
+   49 ListParametros: ListParametros TCOMA ExpressaoAritmetica
+   50               | ExpressaoAritmetica
 
-   56 Fator: TID
-   57      | TAPAR ExpressaoAritmetica TFPAR
-   58      | TSUB Fator
-   59      | TNUM
+   51 ExpressaoAritmetica: ExpressaoAritmetica TADD Termo
+   52                    | ExpressaoAritmetica TSUB Termo
+   53                    | Termo
 
-   60 ExpressaoRelacional: ExpressaoAritmetica TBIG ExpressaoAritmetica
-   61                    | ExpressaoAritmetica TSMALL ExpressaoAritmetica
-   62                    | ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica
-   63                    | ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica
-   64                    | ExpressaoAritmetica TEQUAL ExpressaoAritmetica
-   65                    | ExpressaoAritmetica TNEQUAL ExpressaoAritmetica
+   54 Termo: Termo TMUL Fator
+   55      | Termo TDIV Fator
+   56      | Fator
 
-   66 ExpressaoLogica: ExpressaoLogica TAND TermoLogico
-   67                | ExpressaoLogica TOR TermoLogico
-   68                | TermoLogico
+   57 Fator: TID
+   58      | TAPAR ExpressaoAritmetica TFPAR
+   59      | TSUB Fator
+   60      | TNUM
 
-   69 TermoLogico: TNOT TermoLogico
-   70            | TAPAR ExpressaoLogica TFPAR
-   71            | ExpressaoRelacional
+   61 ExpressaoRelacional: ExpressaoAritmetica TBIG ExpressaoAritmetica
+   62                    | ExpressaoAritmetica TSMALL ExpressaoAritmetica
+   63                    | ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica
+   64                    | ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica
+   65                    | ExpressaoAritmetica TEQUAL ExpressaoAritmetica
+   66                    | ExpressaoAritmetica TNEQUAL ExpressaoAritmetica
 
-   72 Tipagem: ExpressaoAritmetica
-   73        | TLITERAL
+   67 ExpressaoLogica: ExpressaoLogica TAND TermoLogico
+   68                | ExpressaoLogica TOR TermoLogico
+   69                | TermoLogico
+
+   70 TermoLogico: TNOT TermoLogico
+   71            | TAPAR ExpressaoLogica TFPAR
+   72            | ExpressaoRelacional
+
+   73 Tipagem: ExpressaoAritmetica
+   74        | TLITERAL
+
+   75 P: %empty
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-TADD (258) 39 43 50
-TMUL (259) 53
-TSUB (260) 44 51 58
-TDIV (261) 54
-TAPAR (262) 5 6 34 35 36 37 42 45 46 47 57 70
-TFPAR (263) 5 6 34 35 36 37 42 45 46 47 57 70
-TAND (264) 66
-TOR (265) 67
-TNOT (266) 69
-TEQUAL (267) 64
-TNEQUAL (268) 65
-TBIG (269) 60
-TSMALL (270) 61
-TBIGEQUAL (271) 62
-TSMALLEQUAL (272) 63
+TADD (258) 40 44 51
+TMUL (259) 54
+TSUB (260) 45 52 59
+TDIV (261) 55
+TAPAR (262) 5 6 34 35 36 37 43 46 47 48 58 71
+TFPAR (263) 5 6 34 35 36 37 43 46 47 48 58 71
+TAND (264) 67
+TOR (265) 68
+TNOT (266) 70
+TEQUAL (267) 65
+TNEQUAL (268) 66
+TBIG (269) 61
+TSMALL (270) 62
+TBIGEQUAL (271) 63
+TSMALLEQUAL (272) 64
 TIF (273) 34 35
 TELSE (274) 35
 TWHILE (275) 36 37
 TRETURN (276) 33
-TLITERAL (277) 40 73
+TLITERAL (277) 41 74
 TSTRING (278) 18
 TINT (279) 17
 TVOID (280) 8
-TREAD (281) 45
-TPRINT (282) 42
-TDOTCOMA (283) 16 33 37 38 40 42 43 44 45 46 47
-TCOMA (284) 9 19 48
+TREAD (281) 46
+TPRINT (282) 43
+TDOTCOMA (283) 16 33 37 38 40 41 43 44 45 46 47 48
+TCOMA (284) 9 19 49
 TACHA (285) 12 13 21
 TFCHA (286) 12 13 21
-TATR (287) 38 39 40 41
-TID (288) 5 6 11 19 20 38 39 40 41 43 44 45 46 47 56
-TNUM (289) 59
+TATR (287) 38 40 41 42
+TID (288) 5 6 11 19 20 38 40 41 42 44 45 46 47 48 57
+TNUM (289) 60
 TDO (290) 37
 
 
@@ -185,34 +200,38 @@ CmdSe (52)
 CmdEnquanto (53)
     on left: 36 37, on right: 25
 CmdAtrib (54)
-    on left: 38 39 40 41, on right: 26
-CmdEscrita (55)
-    on left: 42, on right: 27
-CmdIncrementa (56)
-    on left: 43, on right: 28
-CmdDecrementa (57)
-    on left: 44, on right: 29
-CmdLeitura (58)
-    on left: 45, on right: 30
-ChamadaFuncao (59)
-    on left: 46 47, on right: 31 41
-ListParametros (60)
-    on left: 48 49, on right: 46 48
-ExpressaoAritmetica (61)
-    on left: 50 51 52, on right: 33 38 48 49 50 51 57 60 61 62 63 64
-    65 72
-Termo (62)
-    on left: 53 54 55, on right: 50 51 52 53 54
-Fator (63)
-    on left: 56 57 58 59, on right: 53 54 55 58
-ExpressaoRelacional (64)
-    on left: 60 61 62 63 64 65, on right: 71
-ExpressaoLogica (65)
-    on left: 66 67 68, on right: 34 35 36 37 66 67 70
-TermoLogico (66)
-    on left: 69 70 71, on right: 66 67 68 69
-Tipagem (67)
-    on left: 72 73, on right: 42
+    on left: 38 40 41 42, on right: 26
+$@1 (55)
+    on left: 39, on right: 40
+CmdEscrita (56)
+    on left: 43, on right: 27
+CmdIncrementa (57)
+    on left: 44, on right: 28
+CmdDecrementa (58)
+    on left: 45, on right: 29
+CmdLeitura (59)
+    on left: 46, on right: 30
+ChamadaFuncao (60)
+    on left: 47 48, on right: 31 42
+ListParametros (61)
+    on left: 49 50, on right: 47 49
+ExpressaoAritmetica (62)
+    on left: 51 52 53, on right: 33 38 40 49 50 51 52 58 61 62 63 64
+    65 66 73
+Termo (63)
+    on left: 54 55 56, on right: 51 52 53 54 55
+Fator (64)
+    on left: 57 58 59 60, on right: 54 55 56 59
+ExpressaoRelacional (65)
+    on left: 61 62 63 64 65 66, on right: 72
+ExpressaoLogica (66)
+    on left: 67 68 69, on right: 34 35 36 37 67 68 71
+TermoLogico (67)
+    on left: 70 71 72, on right: 67 68 69 70
+Tipagem (68)
+    on left: 73 74, on right: 43
+P (69)
+    on left: 75, on right: 43
 
 
 State 0
@@ -367,28 +386,30 @@ State 13
 
 State 14
 
-   45 CmdLeitura: TREAD . TAPAR TID TFPAR TDOTCOMA
+   46 CmdLeitura: TREAD . TAPAR TID TFPAR TDOTCOMA
 
     TAPAR  shift, and go to state 45
 
 
 State 15
 
-   42 CmdEscrita: TPRINT . TAPAR Tipagem TFPAR TDOTCOMA
+   43 CmdEscrita: TPRINT . P TAPAR Tipagem TFPAR TDOTCOMA
 
-    TAPAR  shift, and go to state 46
+    $default  reduce using rule 75 (P)
+
+    P  go to state 46
 
 
 State 16
 
    38 CmdAtrib: TID . TATR ExpressaoAritmetica TDOTCOMA
-   39         | TID . TADD TATR
-   40         | TID . TATR TLITERAL TDOTCOMA
-   41         | TID . TATR ChamadaFuncao
-   43 CmdIncrementa: TID . TADD TADD TDOTCOMA
-   44 CmdDecrementa: TID . TSUB TSUB TDOTCOMA
-   46 ChamadaFuncao: TID . TAPAR ListParametros TFPAR TDOTCOMA
-   47              | TID . TAPAR TFPAR TDOTCOMA
+   40         | TID . TADD TATR $@1 ExpressaoAritmetica TDOTCOMA
+   41         | TID . TATR TLITERAL TDOTCOMA
+   42         | TID . TATR ChamadaFuncao
+   44 CmdIncrementa: TID . TADD TADD TDOTCOMA
+   45 CmdDecrementa: TID . TSUB TSUB TDOTCOMA
+   47 ChamadaFuncao: TID . TAPAR ListParametros TFPAR TDOTCOMA
+   48              | TID . TAPAR TFPAR TDOTCOMA
 
     TADD   shift, and go to state 47
     TSUB   shift, and go to state 48
@@ -615,7 +636,7 @@ State 37
 
 State 38
 
-   58 Fator: TSUB . Fator
+   59 Fator: TSUB . Fator
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -627,7 +648,7 @@ State 38
 
 State 39
 
-   57 Fator: TAPAR . ExpressaoAritmetica TFPAR
+   58 Fator: TAPAR . ExpressaoAritmetica TFPAR
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -641,23 +662,23 @@ State 39
 
 State 40
 
-   56 Fator: TID .
+   57 Fator: TID .
 
-    $default  reduce using rule 56 (Fator)
+    $default  reduce using rule 57 (Fator)
 
 
 State 41
 
-   59 Fator: TNUM .
+   60 Fator: TNUM .
 
-    $default  reduce using rule 59 (Fator)
+    $default  reduce using rule 60 (Fator)
 
 
 State 42
 
    33 Retorno: TRETURN ExpressaoAritmetica . TDOTCOMA
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
 
     TADD      shift, and go to state 69
     TSUB      shift, and go to state 70
@@ -666,75 +687,66 @@ State 42
 
 State 43
 
-   52 ExpressaoAritmetica: Termo .
-   53 Termo: Termo . TMUL Fator
-   54      | Termo . TDIV Fator
+   53 ExpressaoAritmetica: Termo .
+   54 Termo: Termo . TMUL Fator
+   55      | Termo . TDIV Fator
 
     TMUL  shift, and go to state 72
     TDIV  shift, and go to state 73
 
-    $default  reduce using rule 52 (ExpressaoAritmetica)
+    $default  reduce using rule 53 (ExpressaoAritmetica)
 
 
 State 44
 
-   55 Termo: Fator .
+   56 Termo: Fator .
 
-    $default  reduce using rule 55 (Termo)
+    $default  reduce using rule 56 (Termo)
 
 
 State 45
 
-   45 CmdLeitura: TREAD TAPAR . TID TFPAR TDOTCOMA
+   46 CmdLeitura: TREAD TAPAR . TID TFPAR TDOTCOMA
 
     TID  shift, and go to state 74
 
 
 State 46
 
-   42 CmdEscrita: TPRINT TAPAR . Tipagem TFPAR TDOTCOMA
+   43 CmdEscrita: TPRINT P . TAPAR Tipagem TFPAR TDOTCOMA
 
-    TSUB      shift, and go to state 38
-    TAPAR     shift, and go to state 39
-    TLITERAL  shift, and go to state 75
-    TID       shift, and go to state 40
-    TNUM      shift, and go to state 41
-
-    ExpressaoAritmetica  go to state 76
-    Termo                go to state 43
-    Fator                go to state 44
-    Tipagem              go to state 77
+    TAPAR  shift, and go to state 75
 
 
 State 47
 
-   39 CmdAtrib: TID TADD . TATR
-   43 CmdIncrementa: TID TADD . TADD TDOTCOMA
+   40 CmdAtrib: TID TADD . TATR $@1 ExpressaoAritmetica TDOTCOMA
+   44 CmdIncrementa: TID TADD . TADD TDOTCOMA
 
-    TADD  shift, and go to state 78
-    TATR  shift, and go to state 79
+    TADD  shift, and go to state 76
+    TATR  shift, and go to state 77
 
 
 State 48
 
-   44 CmdDecrementa: TID TSUB . TSUB TDOTCOMA
+   45 CmdDecrementa: TID TSUB . TSUB TDOTCOMA
 
-    TSUB  shift, and go to state 80
+    TSUB  shift, and go to state 78
 
 
 State 49
 
-   46 ChamadaFuncao: TID TAPAR . ListParametros TFPAR TDOTCOMA
-   47              | TID TAPAR . TFPAR TDOTCOMA
+   47 ChamadaFuncao: TID TAPAR . ListParametros TFPAR TDOTCOMA
+   48              | TID TAPAR . TFPAR TDOTCOMA
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
-    TFPAR  shift, and go to state 81
+    TFPAR  shift, and go to state 79
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    ListParametros       go to state 82
-    ExpressaoAritmetica  go to state 83
+    ListParametros       go to state 80
+    ExpressaoAritmetica  go to state 81
     Termo                go to state 43
     Fator                go to state 44
 
@@ -742,17 +754,17 @@ State 49
 State 50
 
    38 CmdAtrib: TID TATR . ExpressaoAritmetica TDOTCOMA
-   40         | TID TATR . TLITERAL TDOTCOMA
-   41         | TID TATR . ChamadaFuncao
+   41         | TID TATR . TLITERAL TDOTCOMA
+   42         | TID TATR . ChamadaFuncao
 
     TSUB      shift, and go to state 38
     TAPAR     shift, and go to state 39
-    TLITERAL  shift, and go to state 84
-    TID       shift, and go to state 85
+    TLITERAL  shift, and go to state 82
+    TID       shift, and go to state 83
     TNUM      shift, and go to state 41
 
-    ChamadaFuncao        go to state 86
-    ExpressaoAritmetica  go to state 87
+    ChamadaFuncao        go to state 84
+    ExpressaoAritmetica  go to state 85
     Termo                go to state 43
     Fator                go to state 44
 
@@ -769,7 +781,7 @@ State 51
     TID      shift, and go to state 16
     TDO      shift, and go to state 17
 
-    ListCmd        go to state 88
+    ListCmd        go to state 86
     Comando        go to state 22
     Retorno        go to state 23
     CmdSe          go to state 24
@@ -786,7 +798,7 @@ State 52
 
    37 CmdEnquanto: TDO Bloco . TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA
 
-    TWHILE  shift, and go to state 89
+    TWHILE  shift, and go to state 87
 
 
 State 53
@@ -806,7 +818,7 @@ State 54
     TRETURN  shift, and go to state 13
     TREAD    shift, and go to state 14
     TPRINT   shift, and go to state 15
-    TFCHA    shift, and go to state 90
+    TFCHA    shift, and go to state 88
     TID      shift, and go to state 16
     TDO      shift, and go to state 17
 
@@ -834,8 +846,8 @@ State 56
    16 Declaracao: Tipo ListId . TDOTCOMA
    19 ListId: ListId . TCOMA TID
 
-    TDOTCOMA  shift, and go to state 91
-    TCOMA     shift, and go to state 92
+    TDOTCOMA  shift, and go to state 89
+    TCOMA     shift, and go to state 90
 
 
 State 57
@@ -857,19 +869,19 @@ State 59
     5 Funcao: TipoRetorno TID TAPAR . DeclParametros TFPAR BlocoPrincipal
     6       | TipoRetorno TID TAPAR . TFPAR BlocoPrincipal
 
-    TFPAR    shift, and go to state 93
+    TFPAR    shift, and go to state 91
     TSTRING  shift, and go to state 1
     TINT     shift, and go to state 2
 
-    DeclParametros  go to state 94
-    Parametro       go to state 95
-    Tipo            go to state 96
+    DeclParametros  go to state 92
+    Parametro       go to state 93
+    Tipo            go to state 94
 
 
 State 60
 
-   57 Fator: TAPAR . ExpressaoAritmetica TFPAR
-   70 TermoLogico: TAPAR . ExpressaoLogica TFPAR
+   58 Fator: TAPAR . ExpressaoAritmetica TFPAR
+   71 TermoLogico: TAPAR . ExpressaoLogica TFPAR
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 60
@@ -877,17 +889,17 @@ State 60
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    ExpressaoAritmetica  go to state 97
+    ExpressaoAritmetica  go to state 95
     Termo                go to state 43
     Fator                go to state 44
     ExpressaoRelacional  go to state 63
-    ExpressaoLogica      go to state 98
+    ExpressaoLogica      go to state 96
     TermoLogico          go to state 65
 
 
 State 61
 
-   69 TermoLogico: TNOT . TermoLogico
+   70 TermoLogico: TNOT . TermoLogico
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 60
@@ -899,108 +911,108 @@ State 61
     Termo                go to state 43
     Fator                go to state 44
     ExpressaoRelacional  go to state 63
-    TermoLogico          go to state 99
+    TermoLogico          go to state 97
 
 
 State 62
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   60 ExpressaoRelacional: ExpressaoAritmetica . TBIG ExpressaoAritmetica
-   61                    | ExpressaoAritmetica . TSMALL ExpressaoAritmetica
-   62                    | ExpressaoAritmetica . TBIGEQUAL ExpressaoAritmetica
-   63                    | ExpressaoAritmetica . TSMALLEQUAL ExpressaoAritmetica
-   64                    | ExpressaoAritmetica . TEQUAL ExpressaoAritmetica
-   65                    | ExpressaoAritmetica . TNEQUAL ExpressaoAritmetica
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   61 ExpressaoRelacional: ExpressaoAritmetica . TBIG ExpressaoAritmetica
+   62                    | ExpressaoAritmetica . TSMALL ExpressaoAritmetica
+   63                    | ExpressaoAritmetica . TBIGEQUAL ExpressaoAritmetica
+   64                    | ExpressaoAritmetica . TSMALLEQUAL ExpressaoAritmetica
+   65                    | ExpressaoAritmetica . TEQUAL ExpressaoAritmetica
+   66                    | ExpressaoAritmetica . TNEQUAL ExpressaoAritmetica
 
     TADD         shift, and go to state 69
     TSUB         shift, and go to state 70
-    TEQUAL       shift, and go to state 100
-    TNEQUAL      shift, and go to state 101
-    TBIG         shift, and go to state 102
-    TSMALL       shift, and go to state 103
-    TBIGEQUAL    shift, and go to state 104
-    TSMALLEQUAL  shift, and go to state 105
+    TEQUAL       shift, and go to state 98
+    TNEQUAL      shift, and go to state 99
+    TBIG         shift, and go to state 100
+    TSMALL       shift, and go to state 101
+    TBIGEQUAL    shift, and go to state 102
+    TSMALLEQUAL  shift, and go to state 103
 
 
 State 63
 
-   71 TermoLogico: ExpressaoRelacional .
+   72 TermoLogico: ExpressaoRelacional .
 
-    $default  reduce using rule 71 (TermoLogico)
+    $default  reduce using rule 72 (TermoLogico)
 
 
 State 64
 
    34 CmdSe: TIF TAPAR ExpressaoLogica . TFPAR Bloco
    35      | TIF TAPAR ExpressaoLogica . TFPAR Bloco TELSE Bloco
-   66 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
-   67                | ExpressaoLogica . TOR TermoLogico
+   67 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
+   68                | ExpressaoLogica . TOR TermoLogico
 
-    TFPAR  shift, and go to state 106
-    TAND   shift, and go to state 107
-    TOR    shift, and go to state 108
+    TFPAR  shift, and go to state 104
+    TAND   shift, and go to state 105
+    TOR    shift, and go to state 106
 
 
 State 65
 
-   68 ExpressaoLogica: TermoLogico .
+   69 ExpressaoLogica: TermoLogico .
 
-    $default  reduce using rule 68 (ExpressaoLogica)
+    $default  reduce using rule 69 (ExpressaoLogica)
 
 
 State 66
 
    36 CmdEnquanto: TWHILE TAPAR ExpressaoLogica . TFPAR Bloco
-   66 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
-   67                | ExpressaoLogica . TOR TermoLogico
+   67 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
+   68                | ExpressaoLogica . TOR TermoLogico
 
-    TFPAR  shift, and go to state 109
-    TAND   shift, and go to state 107
-    TOR    shift, and go to state 108
+    TFPAR  shift, and go to state 107
+    TAND   shift, and go to state 105
+    TOR    shift, and go to state 106
 
 
 State 67
 
-   58 Fator: TSUB Fator .
+   59 Fator: TSUB Fator .
 
-    $default  reduce using rule 58 (Fator)
+    $default  reduce using rule 59 (Fator)
 
 
 State 68
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   57 Fator: TAPAR ExpressaoAritmetica . TFPAR
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   58 Fator: TAPAR ExpressaoAritmetica . TFPAR
 
     TADD   shift, and go to state 69
     TSUB   shift, and go to state 70
-    TFPAR  shift, and go to state 110
+    TFPAR  shift, and go to state 108
 
 
 State 69
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica TADD . Termo
+   51 ExpressaoAritmetica: ExpressaoAritmetica TADD . Termo
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    Termo  go to state 111
+    Termo  go to state 109
     Fator  go to state 44
 
 
 State 70
 
-   51 ExpressaoAritmetica: ExpressaoAritmetica TSUB . Termo
+   52 ExpressaoAritmetica: ExpressaoAritmetica TSUB . Termo
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    Termo  go to state 112
+    Termo  go to state 110
     Fator  go to state 44
 
 
@@ -1013,147 +1025,139 @@ State 71
 
 State 72
 
-   53 Termo: Termo TMUL . Fator
+   54 Termo: Termo TMUL . Fator
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    Fator  go to state 113
+    Fator  go to state 111
 
 
 State 73
 
-   54 Termo: Termo TDIV . Fator
+   55 Termo: Termo TDIV . Fator
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
     TID    shift, and go to state 40
     TNUM   shift, and go to state 41
 
-    Fator  go to state 114
+    Fator  go to state 112
 
 
 State 74
 
-   45 CmdLeitura: TREAD TAPAR TID . TFPAR TDOTCOMA
+   46 CmdLeitura: TREAD TAPAR TID . TFPAR TDOTCOMA
 
-    TFPAR  shift, and go to state 115
+    TFPAR  shift, and go to state 113
 
 
 State 75
 
-   73 Tipagem: TLITERAL .
+   43 CmdEscrita: TPRINT P TAPAR . Tipagem TFPAR TDOTCOMA
 
-    $default  reduce using rule 73 (Tipagem)
+    TSUB      shift, and go to state 38
+    TAPAR     shift, and go to state 39
+    TLITERAL  shift, and go to state 114
+    TID       shift, and go to state 40
+    TNUM      shift, and go to state 41
+
+    ExpressaoAritmetica  go to state 115
+    Termo                go to state 43
+    Fator                go to state 44
+    Tipagem              go to state 116
 
 
 State 76
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   72 Tipagem: ExpressaoAritmetica .
-
-    TADD  shift, and go to state 69
-    TSUB  shift, and go to state 70
-
-    $default  reduce using rule 72 (Tipagem)
-
-
-State 77
-
-   42 CmdEscrita: TPRINT TAPAR Tipagem . TFPAR TDOTCOMA
-
-    TFPAR  shift, and go to state 116
-
-
-State 78
-
-   43 CmdIncrementa: TID TADD TADD . TDOTCOMA
+   44 CmdIncrementa: TID TADD TADD . TDOTCOMA
 
     TDOTCOMA  shift, and go to state 117
 
 
-State 79
+State 77
 
-   39 CmdAtrib: TID TADD TATR .
+   40 CmdAtrib: TID TADD TATR . $@1 ExpressaoAritmetica TDOTCOMA
 
-    $default  reduce using rule 39 (CmdAtrib)
+    $default  reduce using rule 39 ($@1)
 
-
-State 80
-
-   44 CmdDecrementa: TID TSUB TSUB . TDOTCOMA
-
-    TDOTCOMA  shift, and go to state 118
+    $@1  go to state 118
 
 
-State 81
+State 78
 
-   47 ChamadaFuncao: TID TAPAR TFPAR . TDOTCOMA
+   45 CmdDecrementa: TID TSUB TSUB . TDOTCOMA
 
     TDOTCOMA  shift, and go to state 119
 
 
-State 82
+State 79
 
-   46 ChamadaFuncao: TID TAPAR ListParametros . TFPAR TDOTCOMA
-   48 ListParametros: ListParametros . TCOMA ExpressaoAritmetica
+   48 ChamadaFuncao: TID TAPAR TFPAR . TDOTCOMA
 
-    TFPAR  shift, and go to state 120
-    TCOMA  shift, and go to state 121
+    TDOTCOMA  shift, and go to state 120
 
 
-State 83
+State 80
 
-   49 ListParametros: ExpressaoAritmetica .
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
+   47 ChamadaFuncao: TID TAPAR ListParametros . TFPAR TDOTCOMA
+   49 ListParametros: ListParametros . TCOMA ExpressaoAritmetica
+
+    TFPAR  shift, and go to state 121
+    TCOMA  shift, and go to state 122
+
+
+State 81
+
+   50 ListParametros: ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
 
-    $default  reduce using rule 49 (ListParametros)
+    $default  reduce using rule 50 (ListParametros)
+
+
+State 82
+
+   41 CmdAtrib: TID TATR TLITERAL . TDOTCOMA
+
+    TDOTCOMA  shift, and go to state 123
+
+
+State 83
+
+   47 ChamadaFuncao: TID . TAPAR ListParametros TFPAR TDOTCOMA
+   48              | TID . TAPAR TFPAR TDOTCOMA
+   57 Fator: TID .
+
+    TAPAR  shift, and go to state 49
+
+    $default  reduce using rule 57 (Fator)
 
 
 State 84
 
-   40 CmdAtrib: TID TATR TLITERAL . TDOTCOMA
+   42 CmdAtrib: TID TATR ChamadaFuncao .
 
-    TDOTCOMA  shift, and go to state 122
+    $default  reduce using rule 42 (CmdAtrib)
 
 
 State 85
 
-   46 ChamadaFuncao: TID . TAPAR ListParametros TFPAR TDOTCOMA
-   47              | TID . TAPAR TFPAR TDOTCOMA
-   56 Fator: TID .
-
-    TAPAR  shift, and go to state 49
-
-    $default  reduce using rule 56 (Fator)
-
-
-State 86
-
-   41 CmdAtrib: TID TATR ChamadaFuncao .
-
-    $default  reduce using rule 41 (CmdAtrib)
-
-
-State 87
-
    38 CmdAtrib: TID TATR ExpressaoAritmetica . TDOTCOMA
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
 
     TADD      shift, and go to state 69
     TSUB      shift, and go to state 70
-    TDOTCOMA  shift, and go to state 123
+    TDOTCOMA  shift, and go to state 124
 
 
-State 88
+State 86
 
    21 Bloco: TACHA ListCmd . TFCHA
    22 ListCmd: ListCmd . Comando
@@ -1163,7 +1167,7 @@ State 88
     TRETURN  shift, and go to state 13
     TREAD    shift, and go to state 14
     TPRINT   shift, and go to state 15
-    TFCHA    shift, and go to state 124
+    TFCHA    shift, and go to state 125
     TID      shift, and go to state 16
     TDO      shift, and go to state 17
 
@@ -1179,124 +1183,110 @@ State 88
     ChamadaFuncao  go to state 31
 
 
-State 89
+State 87
 
    37 CmdEnquanto: TDO Bloco TWHILE . TAPAR ExpressaoLogica TFPAR TDOTCOMA
 
-    TAPAR  shift, and go to state 125
+    TAPAR  shift, and go to state 126
 
 
-State 90
+State 88
 
    12 BlocoPrincipal: TACHA Declaracoes ListCmd TFCHA .
 
     $default  reduce using rule 12 (BlocoPrincipal)
 
 
-State 91
+State 89
 
    16 Declaracao: Tipo ListId TDOTCOMA .
 
     $default  reduce using rule 16 (Declaracao)
 
 
-State 92
+State 90
 
    19 ListId: ListId TCOMA . TID
 
-    TID  shift, and go to state 126
+    TID  shift, and go to state 127
 
 
-State 93
+State 91
 
     6 Funcao: TipoRetorno TID TAPAR TFPAR . BlocoPrincipal
 
     TACHA  shift, and go to state 4
 
-    BlocoPrincipal  go to state 127
+    BlocoPrincipal  go to state 128
 
 
-State 94
+State 92
 
     5 Funcao: TipoRetorno TID TAPAR DeclParametros . TFPAR BlocoPrincipal
     9 DeclParametros: DeclParametros . TCOMA Parametro
 
-    TFPAR  shift, and go to state 128
-    TCOMA  shift, and go to state 129
+    TFPAR  shift, and go to state 129
+    TCOMA  shift, and go to state 130
 
 
-State 95
+State 93
 
    10 DeclParametros: Parametro .
 
     $default  reduce using rule 10 (DeclParametros)
 
 
-State 96
+State 94
 
    11 Parametro: Tipo . TID
 
-    TID  shift, and go to state 130
+    TID  shift, and go to state 131
+
+
+State 95
+
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   58 Fator: TAPAR ExpressaoAritmetica . TFPAR
+   61 ExpressaoRelacional: ExpressaoAritmetica . TBIG ExpressaoAritmetica
+   62                    | ExpressaoAritmetica . TSMALL ExpressaoAritmetica
+   63                    | ExpressaoAritmetica . TBIGEQUAL ExpressaoAritmetica
+   64                    | ExpressaoAritmetica . TSMALLEQUAL ExpressaoAritmetica
+   65                    | ExpressaoAritmetica . TEQUAL ExpressaoAritmetica
+   66                    | ExpressaoAritmetica . TNEQUAL ExpressaoAritmetica
+
+    TADD         shift, and go to state 69
+    TSUB         shift, and go to state 70
+    TFPAR        shift, and go to state 108
+    TEQUAL       shift, and go to state 98
+    TNEQUAL      shift, and go to state 99
+    TBIG         shift, and go to state 100
+    TSMALL       shift, and go to state 101
+    TBIGEQUAL    shift, and go to state 102
+    TSMALLEQUAL  shift, and go to state 103
+
+
+State 96
+
+   67 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
+   68                | ExpressaoLogica . TOR TermoLogico
+   71 TermoLogico: TAPAR ExpressaoLogica . TFPAR
+
+    TFPAR  shift, and go to state 132
+    TAND   shift, and go to state 105
+    TOR    shift, and go to state 106
 
 
 State 97
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   57 Fator: TAPAR ExpressaoAritmetica . TFPAR
-   60 ExpressaoRelacional: ExpressaoAritmetica . TBIG ExpressaoAritmetica
-   61                    | ExpressaoAritmetica . TSMALL ExpressaoAritmetica
-   62                    | ExpressaoAritmetica . TBIGEQUAL ExpressaoAritmetica
-   63                    | ExpressaoAritmetica . TSMALLEQUAL ExpressaoAritmetica
-   64                    | ExpressaoAritmetica . TEQUAL ExpressaoAritmetica
-   65                    | ExpressaoAritmetica . TNEQUAL ExpressaoAritmetica
+   70 TermoLogico: TNOT TermoLogico .
 
-    TADD         shift, and go to state 69
-    TSUB         shift, and go to state 70
-    TFPAR        shift, and go to state 110
-    TEQUAL       shift, and go to state 100
-    TNEQUAL      shift, and go to state 101
-    TBIG         shift, and go to state 102
-    TSMALL       shift, and go to state 103
-    TBIGEQUAL    shift, and go to state 104
-    TSMALLEQUAL  shift, and go to state 105
+    $default  reduce using rule 70 (TermoLogico)
 
 
 State 98
 
-   66 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
-   67                | ExpressaoLogica . TOR TermoLogico
-   70 TermoLogico: TAPAR ExpressaoLogica . TFPAR
-
-    TFPAR  shift, and go to state 131
-    TAND   shift, and go to state 107
-    TOR    shift, and go to state 108
-
-
-State 99
-
-   69 TermoLogico: TNOT TermoLogico .
-
-    $default  reduce using rule 69 (TermoLogico)
-
-
-State 100
-
-   64 ExpressaoRelacional: ExpressaoAritmetica TEQUAL . ExpressaoAritmetica
-
-    TSUB   shift, and go to state 38
-    TAPAR  shift, and go to state 39
-    TID    shift, and go to state 40
-    TNUM   shift, and go to state 41
-
-    ExpressaoAritmetica  go to state 132
-    Termo                go to state 43
-    Fator                go to state 44
-
-
-State 101
-
-   65 ExpressaoRelacional: ExpressaoAritmetica TNEQUAL . ExpressaoAritmetica
+   65 ExpressaoRelacional: ExpressaoAritmetica TEQUAL . ExpressaoAritmetica
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1308,9 +1298,9 @@ State 101
     Fator                go to state 44
 
 
-State 102
+State 99
 
-   60 ExpressaoRelacional: ExpressaoAritmetica TBIG . ExpressaoAritmetica
+   66 ExpressaoRelacional: ExpressaoAritmetica TNEQUAL . ExpressaoAritmetica
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1322,9 +1312,9 @@ State 102
     Fator                go to state 44
 
 
-State 103
+State 100
 
-   61 ExpressaoRelacional: ExpressaoAritmetica TSMALL . ExpressaoAritmetica
+   61 ExpressaoRelacional: ExpressaoAritmetica TBIG . ExpressaoAritmetica
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1336,9 +1326,9 @@ State 103
     Fator                go to state 44
 
 
-State 104
+State 101
 
-   62 ExpressaoRelacional: ExpressaoAritmetica TBIGEQUAL . ExpressaoAritmetica
+   62 ExpressaoRelacional: ExpressaoAritmetica TSMALL . ExpressaoAritmetica
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1350,9 +1340,9 @@ State 104
     Fator                go to state 44
 
 
-State 105
+State 102
 
-   63 ExpressaoRelacional: ExpressaoAritmetica TSMALLEQUAL . ExpressaoAritmetica
+   63 ExpressaoRelacional: ExpressaoAritmetica TBIGEQUAL . ExpressaoAritmetica
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1364,36 +1354,33 @@ State 105
     Fator                go to state 44
 
 
-State 106
+State 103
+
+   64 ExpressaoRelacional: ExpressaoAritmetica TSMALLEQUAL . ExpressaoAritmetica
+
+    TSUB   shift, and go to state 38
+    TAPAR  shift, and go to state 39
+    TID    shift, and go to state 40
+    TNUM   shift, and go to state 41
+
+    ExpressaoAritmetica  go to state 138
+    Termo                go to state 43
+    Fator                go to state 44
+
+
+State 104
 
    34 CmdSe: TIF TAPAR ExpressaoLogica TFPAR . Bloco
    35      | TIF TAPAR ExpressaoLogica TFPAR . Bloco TELSE Bloco
 
     TACHA  shift, and go to state 51
 
-    Bloco  go to state 138
+    Bloco  go to state 139
 
 
-State 107
+State 105
 
-   66 ExpressaoLogica: ExpressaoLogica TAND . TermoLogico
-
-    TSUB   shift, and go to state 38
-    TAPAR  shift, and go to state 60
-    TNOT   shift, and go to state 61
-    TID    shift, and go to state 40
-    TNUM   shift, and go to state 41
-
-    ExpressaoAritmetica  go to state 62
-    Termo                go to state 43
-    Fator                go to state 44
-    ExpressaoRelacional  go to state 63
-    TermoLogico          go to state 139
-
-
-State 108
-
-   67 ExpressaoLogica: ExpressaoLogica TOR . TermoLogico
+   67 ExpressaoLogica: ExpressaoLogica TAND . TermoLogico
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 60
@@ -1408,39 +1395,44 @@ State 108
     TermoLogico          go to state 140
 
 
-State 109
+State 106
+
+   68 ExpressaoLogica: ExpressaoLogica TOR . TermoLogico
+
+    TSUB   shift, and go to state 38
+    TAPAR  shift, and go to state 60
+    TNOT   shift, and go to state 61
+    TID    shift, and go to state 40
+    TNUM   shift, and go to state 41
+
+    ExpressaoAritmetica  go to state 62
+    Termo                go to state 43
+    Fator                go to state 44
+    ExpressaoRelacional  go to state 63
+    TermoLogico          go to state 141
+
+
+State 107
 
    36 CmdEnquanto: TWHILE TAPAR ExpressaoLogica TFPAR . Bloco
 
     TACHA  shift, and go to state 51
 
-    Bloco  go to state 141
+    Bloco  go to state 142
 
 
-State 110
+State 108
 
-   57 Fator: TAPAR ExpressaoAritmetica TFPAR .
+   58 Fator: TAPAR ExpressaoAritmetica TFPAR .
 
-    $default  reduce using rule 57 (Fator)
-
-
-State 111
-
-   50 ExpressaoAritmetica: ExpressaoAritmetica TADD Termo .
-   53 Termo: Termo . TMUL Fator
-   54      | Termo . TDIV Fator
-
-    TMUL  shift, and go to state 72
-    TDIV  shift, and go to state 73
-
-    $default  reduce using rule 50 (ExpressaoAritmetica)
+    $default  reduce using rule 58 (Fator)
 
 
-State 112
+State 109
 
-   51 ExpressaoAritmetica: ExpressaoAritmetica TSUB Termo .
-   53 Termo: Termo . TMUL Fator
-   54      | Termo . TDIV Fator
+   51 ExpressaoAritmetica: ExpressaoAritmetica TADD Termo .
+   54 Termo: Termo . TMUL Fator
+   55      | Termo . TDIV Fator
 
     TMUL  shift, and go to state 72
     TDIV  shift, and go to state 73
@@ -1448,65 +1440,75 @@ State 112
     $default  reduce using rule 51 (ExpressaoAritmetica)
 
 
-State 113
+State 110
 
-   53 Termo: Termo TMUL Fator .
+   52 ExpressaoAritmetica: ExpressaoAritmetica TSUB Termo .
+   54 Termo: Termo . TMUL Fator
+   55      | Termo . TDIV Fator
 
-    $default  reduce using rule 53 (Termo)
+    TMUL  shift, and go to state 72
+    TDIV  shift, and go to state 73
+
+    $default  reduce using rule 52 (ExpressaoAritmetica)
 
 
-State 114
+State 111
 
-   54 Termo: Termo TDIV Fator .
+   54 Termo: Termo TMUL Fator .
 
     $default  reduce using rule 54 (Termo)
 
 
-State 115
+State 112
 
-   45 CmdLeitura: TREAD TAPAR TID TFPAR . TDOTCOMA
+   55 Termo: Termo TDIV Fator .
 
-    TDOTCOMA  shift, and go to state 142
+    $default  reduce using rule 55 (Termo)
 
 
-State 116
+State 113
 
-   42 CmdEscrita: TPRINT TAPAR Tipagem TFPAR . TDOTCOMA
+   46 CmdLeitura: TREAD TAPAR TID TFPAR . TDOTCOMA
 
     TDOTCOMA  shift, and go to state 143
 
 
+State 114
+
+   74 Tipagem: TLITERAL .
+
+    $default  reduce using rule 74 (Tipagem)
+
+
+State 115
+
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   73 Tipagem: ExpressaoAritmetica .
+
+    TADD  shift, and go to state 69
+    TSUB  shift, and go to state 70
+
+    $default  reduce using rule 73 (Tipagem)
+
+
+State 116
+
+   43 CmdEscrita: TPRINT P TAPAR Tipagem . TFPAR TDOTCOMA
+
+    TFPAR  shift, and go to state 144
+
+
 State 117
 
-   43 CmdIncrementa: TID TADD TADD TDOTCOMA .
+   44 CmdIncrementa: TID TADD TADD TDOTCOMA .
 
-    $default  reduce using rule 43 (CmdIncrementa)
+    $default  reduce using rule 44 (CmdIncrementa)
 
 
 State 118
 
-   44 CmdDecrementa: TID TSUB TSUB TDOTCOMA .
-
-    $default  reduce using rule 44 (CmdDecrementa)
-
-
-State 119
-
-   47 ChamadaFuncao: TID TAPAR TFPAR TDOTCOMA .
-
-    $default  reduce using rule 47 (ChamadaFuncao)
-
-
-State 120
-
-   46 ChamadaFuncao: TID TAPAR ListParametros TFPAR . TDOTCOMA
-
-    TDOTCOMA  shift, and go to state 144
-
-
-State 121
-
-   48 ListParametros: ListParametros TCOMA . ExpressaoAritmetica
+   40 CmdAtrib: TID TADD TATR $@1 . ExpressaoAritmetica TDOTCOMA
 
     TSUB   shift, and go to state 38
     TAPAR  shift, and go to state 39
@@ -1518,28 +1520,63 @@ State 121
     Fator                go to state 44
 
 
+State 119
+
+   45 CmdDecrementa: TID TSUB TSUB TDOTCOMA .
+
+    $default  reduce using rule 45 (CmdDecrementa)
+
+
+State 120
+
+   48 ChamadaFuncao: TID TAPAR TFPAR TDOTCOMA .
+
+    $default  reduce using rule 48 (ChamadaFuncao)
+
+
+State 121
+
+   47 ChamadaFuncao: TID TAPAR ListParametros TFPAR . TDOTCOMA
+
+    TDOTCOMA  shift, and go to state 146
+
+
 State 122
 
-   40 CmdAtrib: TID TATR TLITERAL TDOTCOMA .
+   49 ListParametros: ListParametros TCOMA . ExpressaoAritmetica
 
-    $default  reduce using rule 40 (CmdAtrib)
+    TSUB   shift, and go to state 38
+    TAPAR  shift, and go to state 39
+    TID    shift, and go to state 40
+    TNUM   shift, and go to state 41
+
+    ExpressaoAritmetica  go to state 147
+    Termo                go to state 43
+    Fator                go to state 44
 
 
 State 123
+
+   41 CmdAtrib: TID TATR TLITERAL TDOTCOMA .
+
+    $default  reduce using rule 41 (CmdAtrib)
+
+
+State 124
 
    38 CmdAtrib: TID TATR ExpressaoAritmetica TDOTCOMA .
 
     $default  reduce using rule 38 (CmdAtrib)
 
 
-State 124
+State 125
 
    21 Bloco: TACHA ListCmd TFCHA .
 
     $default  reduce using rule 21 (Bloco)
 
 
-State 125
+State 126
 
    37 CmdEnquanto: TDO Bloco TWHILE TAPAR . ExpressaoLogica TFPAR TDOTCOMA
 
@@ -1553,75 +1590,63 @@ State 125
     Termo                go to state 43
     Fator                go to state 44
     ExpressaoRelacional  go to state 63
-    ExpressaoLogica      go to state 146
+    ExpressaoLogica      go to state 148
     TermoLogico          go to state 65
 
 
-State 126
+State 127
 
    19 ListId: ListId TCOMA TID .
 
     $default  reduce using rule 19 (ListId)
 
 
-State 127
+State 128
 
     6 Funcao: TipoRetorno TID TAPAR TFPAR BlocoPrincipal .
 
     $default  reduce using rule 6 (Funcao)
 
 
-State 128
+State 129
 
     5 Funcao: TipoRetorno TID TAPAR DeclParametros TFPAR . BlocoPrincipal
 
     TACHA  shift, and go to state 4
 
-    BlocoPrincipal  go to state 147
+    BlocoPrincipal  go to state 149
 
 
-State 129
+State 130
 
     9 DeclParametros: DeclParametros TCOMA . Parametro
 
     TSTRING  shift, and go to state 1
     TINT     shift, and go to state 2
 
-    Parametro  go to state 148
-    Tipo       go to state 96
+    Parametro  go to state 150
+    Tipo       go to state 94
 
 
-State 130
+State 131
 
    11 Parametro: Tipo TID .
 
     $default  reduce using rule 11 (Parametro)
 
 
-State 131
-
-   70 TermoLogico: TAPAR ExpressaoLogica TFPAR .
-
-    $default  reduce using rule 70 (TermoLogico)
-
-
 State 132
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   64 ExpressaoRelacional: ExpressaoAritmetica TEQUAL ExpressaoAritmetica .
+   71 TermoLogico: TAPAR ExpressaoLogica TFPAR .
 
-    TADD  shift, and go to state 69
-    TSUB  shift, and go to state 70
-
-    $default  reduce using rule 64 (ExpressaoRelacional)
+    $default  reduce using rule 71 (TermoLogico)
 
 
 State 133
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   65 ExpressaoRelacional: ExpressaoAritmetica TNEQUAL ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   65 ExpressaoRelacional: ExpressaoAritmetica TEQUAL ExpressaoAritmetica .
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
@@ -1631,21 +1656,21 @@ State 133
 
 State 134
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   60 ExpressaoRelacional: ExpressaoAritmetica TBIG ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   66 ExpressaoRelacional: ExpressaoAritmetica TNEQUAL ExpressaoAritmetica .
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
 
-    $default  reduce using rule 60 (ExpressaoRelacional)
+    $default  reduce using rule 66 (ExpressaoRelacional)
 
 
 State 135
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   61 ExpressaoRelacional: ExpressaoAritmetica TSMALL ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   61 ExpressaoRelacional: ExpressaoAritmetica TBIG ExpressaoAritmetica .
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
@@ -1655,9 +1680,9 @@ State 135
 
 State 136
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   62 ExpressaoRelacional: ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   62 ExpressaoRelacional: ExpressaoAritmetica TSMALL ExpressaoAritmetica .
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
@@ -1667,9 +1692,9 @@ State 136
 
 State 137
 
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
-   63 ExpressaoRelacional: ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   63 ExpressaoRelacional: ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica .
 
     TADD  shift, and go to state 69
     TSUB  shift, and go to state 70
@@ -1679,117 +1704,154 @@ State 137
 
 State 138
 
-   34 CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco .
-   35      | TIF TAPAR ExpressaoLogica TFPAR Bloco . TELSE Bloco
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+   64 ExpressaoRelacional: ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica .
 
-    TELSE  shift, and go to state 149
+    TADD  shift, and go to state 69
+    TSUB  shift, and go to state 70
 
-    $default  reduce using rule 34 (CmdSe)
+    $default  reduce using rule 64 (ExpressaoRelacional)
 
 
 State 139
 
-   66 ExpressaoLogica: ExpressaoLogica TAND TermoLogico .
+   34 CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco .
+   35      | TIF TAPAR ExpressaoLogica TFPAR Bloco . TELSE Bloco
 
-    $default  reduce using rule 66 (ExpressaoLogica)
+    TELSE  shift, and go to state 151
+
+    $default  reduce using rule 34 (CmdSe)
 
 
 State 140
 
-   67 ExpressaoLogica: ExpressaoLogica TOR TermoLogico .
+   67 ExpressaoLogica: ExpressaoLogica TAND TermoLogico .
 
     $default  reduce using rule 67 (ExpressaoLogica)
 
 
 State 141
 
+   68 ExpressaoLogica: ExpressaoLogica TOR TermoLogico .
+
+    $default  reduce using rule 68 (ExpressaoLogica)
+
+
+State 142
+
    36 CmdEnquanto: TWHILE TAPAR ExpressaoLogica TFPAR Bloco .
 
     $default  reduce using rule 36 (CmdEnquanto)
 
 
-State 142
-
-   45 CmdLeitura: TREAD TAPAR TID TFPAR TDOTCOMA .
-
-    $default  reduce using rule 45 (CmdLeitura)
-
-
 State 143
 
-   42 CmdEscrita: TPRINT TAPAR Tipagem TFPAR TDOTCOMA .
+   46 CmdLeitura: TREAD TAPAR TID TFPAR TDOTCOMA .
 
-    $default  reduce using rule 42 (CmdEscrita)
+    $default  reduce using rule 46 (CmdLeitura)
 
 
 State 144
 
-   46 ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA .
+   43 CmdEscrita: TPRINT P TAPAR Tipagem TFPAR . TDOTCOMA
 
-    $default  reduce using rule 46 (ChamadaFuncao)
+    TDOTCOMA  shift, and go to state 152
 
 
 State 145
 
-   48 ListParametros: ListParametros TCOMA ExpressaoAritmetica .
-   50 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
-   51                    | ExpressaoAritmetica . TSUB Termo
+   40 CmdAtrib: TID TADD TATR $@1 ExpressaoAritmetica . TDOTCOMA
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
 
-    TADD  shift, and go to state 69
-    TSUB  shift, and go to state 70
-
-    $default  reduce using rule 48 (ListParametros)
+    TADD      shift, and go to state 69
+    TSUB      shift, and go to state 70
+    TDOTCOMA  shift, and go to state 153
 
 
 State 146
 
-   37 CmdEnquanto: TDO Bloco TWHILE TAPAR ExpressaoLogica . TFPAR TDOTCOMA
-   66 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
-   67                | ExpressaoLogica . TOR TermoLogico
+   47 ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA .
 
-    TFPAR  shift, and go to state 150
-    TAND   shift, and go to state 107
-    TOR    shift, and go to state 108
+    $default  reduce using rule 47 (ChamadaFuncao)
 
 
 State 147
+
+   49 ListParametros: ListParametros TCOMA ExpressaoAritmetica .
+   51 ExpressaoAritmetica: ExpressaoAritmetica . TADD Termo
+   52                    | ExpressaoAritmetica . TSUB Termo
+
+    TADD  shift, and go to state 69
+    TSUB  shift, and go to state 70
+
+    $default  reduce using rule 49 (ListParametros)
+
+
+State 148
+
+   37 CmdEnquanto: TDO Bloco TWHILE TAPAR ExpressaoLogica . TFPAR TDOTCOMA
+   67 ExpressaoLogica: ExpressaoLogica . TAND TermoLogico
+   68                | ExpressaoLogica . TOR TermoLogico
+
+    TFPAR  shift, and go to state 154
+    TAND   shift, and go to state 105
+    TOR    shift, and go to state 106
+
+
+State 149
 
     5 Funcao: TipoRetorno TID TAPAR DeclParametros TFPAR BlocoPrincipal .
 
     $default  reduce using rule 5 (Funcao)
 
 
-State 148
+State 150
 
     9 DeclParametros: DeclParametros TCOMA Parametro .
 
     $default  reduce using rule 9 (DeclParametros)
 
 
-State 149
+State 151
 
    35 CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco TELSE . Bloco
 
     TACHA  shift, and go to state 51
 
-    Bloco  go to state 151
+    Bloco  go to state 155
 
 
-State 150
+State 152
+
+   43 CmdEscrita: TPRINT P TAPAR Tipagem TFPAR TDOTCOMA .
+
+    $default  reduce using rule 43 (CmdEscrita)
+
+
+State 153
+
+   40 CmdAtrib: TID TADD TATR $@1 ExpressaoAritmetica TDOTCOMA .
+
+    $default  reduce using rule 40 (CmdAtrib)
+
+
+State 154
 
    37 CmdEnquanto: TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR . TDOTCOMA
 
-    TDOTCOMA  shift, and go to state 152
+    TDOTCOMA  shift, and go to state 156
 
 
-State 151
+State 155
 
    35 CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco TELSE Bloco .
 
     $default  reduce using rule 35 (CmdSe)
 
 
-State 152
+State 156
 
    37 CmdEnquanto: TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA .
 

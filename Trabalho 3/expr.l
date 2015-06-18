@@ -64,7 +64,7 @@ literal \"({char})*\"
 "="	{return TATR;}
 
 
-{id}	{strcpy(yylval.id,yytext);return TID;}
+{id}	{strcpy(yylval.nome,yytext);return TID;}
 {num}	{yylval.valor = atoi(yytext); yylval.tipo = INT; return TNUM;}
 {literal} {strcpy(yylval.imprimir,yytext);return TLITERAL;}
 

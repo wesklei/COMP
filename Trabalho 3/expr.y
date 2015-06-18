@@ -39,8 +39,8 @@ Declaracao: Tipo ListId TDOTCOMA {insertTabela($2.lista,$1.tipo);destroiList($$.
 Tipo: TINT {$$.tipo = INT;}
 	| TSTRING {$$.tipo = STRING;}
 	;
-ListId: ListId TCOMA TID {insertList($1.lista, $3.id);}
-	| TID {criaList($$.lista); insertList($$.lista,$1.id);}
+ListId: ListId TCOMA TID {insertList($1.lista, $3.nome);}
+	| TID {criaList($$.lista); insertList($$.lista,$1.nome);}
 	;
 Bloco: TACHA ListCmd TFCHA
 	;
@@ -65,12 +65,14 @@ CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco
 CmdEnquanto: TWHILE TAPAR ExpressaoLogica TFPAR Bloco
 	|TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA 
 	;
-CmdAtrib: TID TATR ExpressaoAritmetica TDOTCOMA
-	| TID TADD TATR 
-	| TID TATR TLITERAL TDOTCOMA
+CmdAtrib: TID TATR ExpressaoAritmetica TDOTCOMA  {if(buscaTipo($1.nome)==buscaTipo($3.nome)){gerar(istore,buscaNome($1.nome));}else{erro();}}
+	| TID TADD TATR {gerar(iload,buscaNome($1.nome));} ExpressaoAritmetica TDOTCOMA {gerar(iadd,-1); if(buscaTipo($1.nome)==buscaTipo($3.nome)){gerar(istore,buscaNome($1.nome));}else{erro();}}
+	| TID TATR TLITERAL TDOTCOMA {if(buscaTipo($1.nome)==buscaTipo($3.nome)){gerarString(ldc,$3.imprimir);gerar(astore,buscaNome($1.nome));}else{erro();}}
 	| TID TATR ChamadaFuncao
 	;
-CmdEscrita: TPRINT TAPAR Tipagem TFPAR TDOTCOMA
+CmdEscrita: TPRINT P TAPAR Tipagem TFPAR TDOTCOMA {if(buscaTipo($4.nome)==STRING){gerarString(invokevirtual,"java/io/PrintStream/println(Ljava/lang/String;)V");} else{ gerarString(invokevirtual,"java/io/PrintStream/println(I)V");}} 
+
+
 	;
 CmdIncrementa: TID TADD TADD TDOTCOMA
 	;
@@ -84,18 +86,28 @@ ChamadaFuncao: TID TAPAR ListParametros TFPAR TDOTCOMA
 ListParametros: ListParametros TCOMA ExpressaoAritmetica
 	| ExpressaoAritmetica
 	;
-ExpressaoAritmetica: ExpressaoAritmetica TADD Termo
-	| ExpressaoAritmetica TSUB Termo
+ExpressaoAritmetica: ExpressaoAritmetica TADD Termo {if ($1.tipo==$3.tipo && $1.tipo==0){gerar(iadd,-1);}else{erro();}}
+	| ExpressaoAritmetica TSUB Termo {if ($1.tipo==$3.tipo && $1.tipo==0){gerar(isub,-1);}else{erro();}}
+
 	| Termo
 	;
-Termo: Termo TMUL Fator
-	| Termo TDIV Fator
+Termo: Termo TMUL Fator {if ($1.tipo==$3.tipo && $1.tipo==0){gerar(imull,-1);}else{erro();}}
+	| Termo TDIV Fator {if ($1.tipo==$3.tipo && $1.tipo==0){gerar(idiv,-1);}else{erro();}}
+
 	| Fator
 	;
-Fator: TID 
+Fator: TID  {if((buscaTipo($1.nome))==INT){gerar(iload,buscaNome($1.nome));}else{gerar(aload,buscaNome($1.nome));}}
 	| TAPAR ExpressaoAritmetica TFPAR
 	| TSUB Fator
-	| TNUM
+	| TNUM {switch($1.valor){
+            	case 0: gerar(iconst_0,-1); break;
+           	case 1: gerar(iconst_1,-1); break;
+            	case 2: gerar(iconst_2,-1); break;
+            	case 3: gerar(iconst_3,-1); break;
+            	case 4: gerar(iconst_4,-1); break;
+            	case 5: gerar(iconst_5,-1); break;
+		default: gerar(bipush,$1.valor);
+		}break;}
 	;
 ExpressaoRelacional:  ExpressaoAritmetica TBIG ExpressaoAritmetica 
 	| ExpressaoAritmetica TSMALL ExpressaoAritmetica
@@ -112,10 +124,13 @@ TermoLogico: TNOT TermoLogico
 	| TAPAR ExpressaoLogica TFPAR
 	| ExpressaoRelacional 
 	;
-Tipagem: ExpressaoAritmetica
-	| TLITERAL
-	;
 
+M: {$$.par = novoLabel();}
+	;
+Tipagem: ExpressaoAritmetica {$$.tipo=INT;}
+	| TLITERAL {gerarString(ldc,$1.imprimir);$$.tipo=STRING;}
+	;
+P: {gerar(getstatic,-1);}
 
 %%
 #include "lex.yy.c"

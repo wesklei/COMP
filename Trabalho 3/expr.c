@@ -5,12 +5,41 @@
 extern FILE *yyin;
 
 simbolos tabSimb[500];
+instrucao cod[500];
 ListaVetor listaVet[500];
 int cont=0,contList=0,contCod=0,contLabel=0,contFuncao=0,contParametros=0,contar=0,contPar=0, posicao,contTeste=0,contCont=0;
 
 void teste(){
 	int i;
 	printf("\n Saida \n");
+	char buffer[500];
+	for(i=0;i<contCod;i++)
+	{
+
+		if (cod[i].par1==1){sprintf(buffer,"%d",cod[i].par2);}
+		else{strcpy(buffer,cod[i].impr);}
+		switch(cod[i].inst){
+			case 100 :{printf("   iadd\n");}break;	
+			case 101 :{printf("   imul\n");}break;
+			case 102 :{printf("   isub\n");}break;
+			case 103 :{printf("   idiv\n");}break;	
+			case 104 :{printf("   istore ");printf("%s",buffer);printf("\n");}break;	
+			case 105 :{printf("   iload ");printf("%s",buffer);printf("\n");}break;
+			case 106 :{printf("   bipush ");printf("%s",buffer);printf("\n");}break;
+			case 107 :{printf("   iconst_0\n");}break;
+			case 108 :{printf("   iconst_1\n");}break;
+			case 109 :{printf("   iconst_2\n");}break;
+			case 110 :{printf("   iconst_3\n");}break;
+			case 111 :{printf("   iconst_4\n");}break;
+			case 112 :{printf("   iconst_5\n");}break;	
+			case 119 :{printf("   getstatic java/lang/System/out Ljava/io/PrintStream;\n");}break;
+			case 120 :{printf("   invokevirtual ");printf("%s",buffer);printf("\n");}break;
+			case 123 :{printf("   ldc ");printf("%s",buffer);printf("\n");}break;
+		}
+		
+	}
+
+
 	for(i=0;i<contTeste;i++)
 	{
 		printf("\nId: %s",tabSimb[i].nomeId);
@@ -50,7 +79,7 @@ void criaList(Lista lista)//funcao q so inicializa quant com '0'
 
 int insertList(Lista lista,char *yytext)//insere em um vetor de ListaVetors o nome da variavel declarada no programa, incrementa uma variavel global, para saber o numero de variaveis existem no programa
 {		
-	strcpy(listaVet[contList].id, yytext);  	
+	strcpy(listaVet[contList].nome, yytext);  	
 	contList++;
 	return SUCESSO;
 }
@@ -67,7 +96,7 @@ int buscaList(Lista lista, void *elemento, int posicao)//procura no vetor na pos
     if(listaQuant(lista) == 0 || listaQuant(lista)>posicao)
         return FRACASSO; //Sai fora
     else{
-	strcpy(elemento,listaVet[posicao].id);
+	strcpy(elemento,listaVet[posicao].nome);
     	return SUCESSO; 
     }
 }
@@ -87,8 +116,8 @@ int insertTabela(Lista lista, int tipo)//insere o nome das variaveis, o tipo del
 		contTeste = (listaQuant(lista)+contPar);
 		for(i=contPar; i <contTeste; i++)
 		{
-			buscaList(lista, &listaVet[cont].id, cont);		
-			strcpy(tabSimb[i].nomeId, listaVet[cont].id);	
+			buscaList(lista, &listaVet[cont].nome, cont);		
+			strcpy(tabSimb[i].nomeId, listaVet[cont].nome);	
 			tabSimb[i].tipo = tipo;
 			tabSimb[i].pos = i;
 			cont++;
@@ -98,8 +127,8 @@ int insertTabela(Lista lista, int tipo)//insere o nome das variaveis, o tipo del
 	{	contTeste =  listaQuant(lista);
 		for(i=cont; i < listaQuant(lista); i++)
 		{     
-			buscaList(lista, &listaVet[cont].id, cont);
-			strcpy(tabSimb[i].nomeId, listaVet[cont].id);	
+			buscaList(lista, &listaVet[cont].nome, cont);
+			strcpy(tabSimb[i].nomeId, listaVet[cont].nome);	
 			tabSimb[i].tipo = tipo;
 			tabSimb[i].pos = i;
 			cont++;
@@ -109,9 +138,80 @@ int insertTabela(Lista lista, int tipo)//insere o nome das variaveis, o tipo del
 	return SUCESSO;
 }
 
+void gerar(int funcao,int posicao)//passa os define's e o label, posicao recebe ou -1 ou um valor gerado pela função novoLabel()
+{
+	cod[contCod].par1 = 1;//para comparação futura, para a impressao
+	cod[contCod].inst = funcao;//recebe o valor do define para impressao posterior
+	cod[contCod].par2 = posicao;//recebe o valor do label	
+	cod[contCod].funcao = contFuncao;//numero da funcao
+	contCod++;
+}
+//verificar
+void gerarString(int funcao,char imprimir[200])//recebe o valor do define de invokevirtual e o q sera impresso
+{
+	cod[contCod].par1 = 2;
+	cod[contCod].inst = funcao;
+	cod[contCod].par2 = -1;
+	cod[contCod].funcao = contFuncao;
+	strcpy(cod[contCod].impr,imprimir);
+	contCod++;
+}
+
 
 void erro()//função que imprime erro se os tipos das variaveis forem diferentes, na hora de fazer operações entre elas
 {
 	printf("\n Operacao com tipos invalidos \n");
 	exit(1);
 }
+
+int buscaNome(char *nome)//procura na tabela o nome das variaveis e retorna a posicao delas na tabela de Simbolos
+{
+	int q,i;
+	if(contTeste!=0)
+	{
+		for(q=0;q<contTeste;q++)
+		{
+			if((strcmp(tabSimb[q].nomeId,nome))==0)
+			{   
+				return tabSimb[q].pos;
+			}	
+		}
+	}
+	else
+	{
+		for(q=0;q<contPar;q++)
+		{	
+			if((strcmp(tabSimb[q].nomeId,nome))==0)
+			{   
+				return tabSimb[q].pos;
+			}	
+		}	
+	}
+}
+
+int buscaTipo(char *nome)//procura na tabela o nome das variaveis e retorna a posicao delas na tabela de Simbolos
+{
+	int q,i;
+	if(contTeste!=0)
+	{       
+		for(q=0;q<contTeste;q++)
+		{
+			if((strcmp(tabSimb[q].nomeId,nome))==0)
+			{   
+				return tabSimb[q].tipo;
+			}	
+		}
+	}
+	else
+	{
+		for(q=0;q<contPar;q++)
+		{	
+			if((strcmp(tabSimb[q].nomeId,nome))==0)
+			{   
+				return tabSimb[q].tipo;
+			}	
+		}	
+	}	
+}	
+
+
