@@ -80,3 +80,24 @@ typedef struct tabSimbolos
 	int tipo;
 }simbolos;
 
+void criaList(Lista lista);
+int insertList(Lista lista,char *yytext);
+int buscaList(Lista lista,void *elemento,int posicao);
+void destroiList(Lista lista);
+int insertTabSimbolos(Lista lista, int tipo);
+void gerar(int funcao,int posicao);
+void gerarString(int funcao,char imprimir[]);
+int novoLabel();
+void merge(int origem1[],int origem2[], int destino[]);
+void atribui(int destino[],int origem[]);
+void corrigir(int *list, int par);
+void inserirListavf(int listav[],int listaf[]);
+int buscaNome(char *nome);
+int consulta(char *yytext);
+void insereParametro(int tipo,char *nome);
+void insereFuncao(char *nome, int tipoRetorno);
+int conta(int contador);
+int buscaTipo(char *nome);
+void comparaFuncao(char *nome);
+void listaParametros(int tipo,char *nome);
+void erro();

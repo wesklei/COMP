@@ -1,22 +1,9 @@
 {
-	int a, b;
-	
-	print("Valor de A:");
-	read(a);
-	print("Valor de B:");
-	read(b);
-	while (a != b)
-	{
-		if (a > b)
-		{
-			a = a - b;
-		}
-		if (b > a)
-		{
-			b = b - a;
-		}
+	int a,b;
+	a = 5;
+	if(a < b){
+		print("Hello!");
+		print(a);
 	}
-	print("\nRes=");
-	print(a);
 }
 	

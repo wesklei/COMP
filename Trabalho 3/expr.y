@@ -59,8 +59,8 @@ Comando: CmdSe
 	;
 Retorno: TRETURN ExpressaoAritmetica TDOTCOMA 
 	;
-CmdSe: TIF TAPAR ExpressaoLogica TFPAR Bloco
-	| TIF TAPAR ExpressaoLogica TFPAR Bloco TELSE Bloco 
+CmdSe: TIF TAPAR ExpressaoLogica TFPAR M Bloco {corrigir($3.listav,$5.par);corrigir($3.listaf,novoLabel());}
+	| TIF TAPAR ExpressaoLogica TFPAR M Bloco TELSE Bloco 
 	;
 CmdEnquanto: TWHILE TAPAR ExpressaoLogica TFPAR Bloco
 	|TDO Bloco TWHILE TAPAR ExpressaoLogica TFPAR TDOTCOMA 
@@ -109,22 +109,21 @@ Fator: TID  {if((buscaTipo($1.nome))==INT){gerar(iload,buscaNome($1.nome));}else
 		default: gerar(bipush,$1.valor);
 		}break;}
 	;
-ExpressaoRelacional:  ExpressaoAritmetica TBIG ExpressaoAritmetica 
-	| ExpressaoAritmetica TSMALL ExpressaoAritmetica
-	| ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica
-	| ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica
-	| ExpressaoAritmetica TEQUAL ExpressaoAritmetica
-	| ExpressaoAritmetica TNEQUAL ExpressaoAritmetica
+ExpressaoRelacional:  ExpressaoAritmetica TBIG ExpressaoAritmetica {inserirListavf($$.listav, $$.listaf); gerarString(if_icmpgt,"");gerarString(Goto,"");}
+	| ExpressaoAritmetica TSMALL ExpressaoAritmetica {inserirListavf($$.listav, $$.listaf); gerarString(if_icmplt,"");gerarString(Goto,"");}
+	| ExpressaoAritmetica TBIGEQUAL ExpressaoAritmetica {inserirListavf($$.listav, $$.listaf);gerarString(if_icmpge,"");gerarString(Goto,"");}
+	| ExpressaoAritmetica TSMALLEQUAL ExpressaoAritmetica {inserirListavf($$.listav, $$.listaf);gerarString(if_icmple,"");gerarString(Goto,"");}
+	| ExpressaoAritmetica TEQUAL ExpressaoAritmetica {inserirListavf($$.listav,$$.listaf);gerarString(if_icmpeq,"");gerarString(Goto,"");}
+	| ExpressaoAritmetica TNEQUAL ExpressaoAritmetica {inserirListavf($$.listav, $$.listaf);gerarString(if_icmpne,"");gerarString(Goto,"");}
 	;			
-ExpressaoLogica: ExpressaoLogica TAND TermoLogico 
-	| ExpressaoLogica TOR TermoLogico
-	| TermoLogico
+ExpressaoLogica: ExpressaoLogica TAND M TermoLogico  {corrigir($1.listav, $3.par);merge($1.listaf, $4.listaf, $$.listaf );atribui($$.listav, $4.listav);}
+	| ExpressaoLogica TOR M TermoLogico {corrigir($1.listaf,$3.par);merge($1.listav, $4.listav, $$.listav);atribui($$.listaf, $4.listaf);}
+	| TermoLogico {atribui($$.listav,$1.listav); atribui($$.listaf,$1.listaf);}
 	;
-TermoLogico: TNOT TermoLogico
-	| TAPAR ExpressaoLogica TFPAR
+TermoLogico: TNOT TermoLogico {atribui($$.listav,$2.listaf);atribui($$.listaf,$2.listav);} 
+	| TAPAR ExpressaoLogica TFPAR {atribui($$.listav,$1.listav); atribui($$.listaf,$1.listaf);}
 	| ExpressaoRelacional 
 	;
-
 M: {$$.par = novoLabel();}
 	;
 Tipagem: ExpressaoAritmetica {$$.tipo=INT;}

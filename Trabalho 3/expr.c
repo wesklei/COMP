@@ -32,9 +32,19 @@ void teste(){
 			case 110 :{printf("   iconst_3\n");}break;
 			case 111 :{printf("   iconst_4\n");}break;
 			case 112 :{printf("   iconst_5\n");}break;	
+			case 113 :{printf("   if_icmpeq l");printf("%s",buffer);printf("\n");}break;		
+			case 114 :{printf("   if_icmpne l");printf("%s",buffer);printf("\n");}break;
+			case 115 :{printf("   if_icmplt l");printf("%s",buffer);printf("\n");}break;			
+			case 116 :{printf("   if_icmpge l");printf("%s",buffer);printf("\n");}break;
+			case 117 :{printf("   if_icmpgt l");printf("%s",buffer);printf("\n");}break;
+			case 118 :{printf("   if_icmple l");printf("%s",buffer);printf("\n");}break;
+				  
 			case 119 :{printf("   getstatic java/lang/System/out Ljava/io/PrintStream;\n");}break;
 			case 120 :{printf("   invokevirtual ");printf("%s",buffer);printf("\n");}break;
 			case 123 :{printf("   ldc ");printf("%s",buffer);printf("\n");}break;
+			case 130 :{printf("   goto l");printf("%s",buffer);printf("\n");}break;
+			case 99999 :{printf(" l");printf("%s",buffer);printf(":\n");}break;
+				  
 		}
 		
 	}
@@ -214,4 +224,65 @@ int buscaTipo(char *nome)//procura na tabela o nome das variaveis e retorna a po
 	}	
 }	
 
+void corrigir(int *list, int label)
+{
+	int q=0;
+	char bufferAux[200];
+	sprintf(bufferAux,"%d",label);
+	do{	
+		strcpy(cod[list[q]].impr, bufferAux);
+		list[q]=-1;
+		q++;
+	}while(list[q]!=-1);
+} 
+
+void atribui(int destino[],int origem[])//funcao de atribuicao
+{
+	int q;
+	for (q=0;q<10;q++){
+		destino[q]=origem[q];//listav recebe listaf ou listaf recebe listav
+	}
+}
+
+int novoLabel()
+{
+	contLabel++;
+	cod[contLabel].label = contLabel;
+	gerar(lx, cod[contLabel].label);//passa a funcao do label e o valor do label
+	return cod[contLabel].label;//retorna o valor do label
+}
+
+void inserirListavf(int listav[],int listaf[])
+{
+	int q;
+	if (listav[9]!=-1 && listaf[9]!=-1){ 
+		for (q=0;q<10;q++){
+			listav[q]=-1;
+			listaf[q]=-1;
+		}
+	}
+	q=0;
+	while(listav[q]!=-1){
+		q++;	
+	}
+	listav[q]=contCod;
+	q=0;
+	while(listaf[q]!=-1){
+		q++;	
+	}
+	listaf[q]=contCod+1;
+}
+void merge(int origem1[],int origem2[], int destino[])
+{
+	int q=0,w;
+	while(origem1[q]!=-1){
+		destino[q]=origem1[q];
+		q++;
+	}
+	w=q;
+	while(origem2[w-q]!=-1){
+		destino[w]=origem2[w-q];
+		w++;
+	}
+}
 
